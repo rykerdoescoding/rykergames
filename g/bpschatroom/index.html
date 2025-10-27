@@ -3,7 +3,6 @@
 <head>
     <title>Retro Chat Login</title>
     <style>
-        /* Body & background */
         body {
             font-family: "Courier New", monospace;
             background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
@@ -26,7 +25,6 @@
             text-align: center;
         }
 
-        /* Login box */
         #login-box {
             background-color: #fff;
             border: 3px solid #003366;
@@ -65,18 +63,26 @@
             color: #003366;
             margin-top: 20px;
         }
-
     </style>
 </head>
 <body>
     <h1>Retro Chat Login</h1>
-
     <div id="login-box">
-        <form method="POST" action="http://72.203.184.19:5000/">
-            <input type="text" name="full_name" placeholder="Enter your full name" required><br>
-            <button type="submit">Enter Chat</button>
-        </form>
-        <p>All users share the same chatroom. Have fun!</p>
+        <input type="text" id="username" placeholder="Enter your full name" required>
+        <br><br>
+        <button id="enter-chat">Enter Chat</button>
+        <p>big group chat for everyone in bps, thats on the website</p>
     </div>
+
+    <script>
+        document.getElementById('enter-chat').addEventListener('click', () => {
+            const name = document.getElementById('username').value.trim();
+            if(name === '') return alert('Please enter your name.');
+            // Save the username in sessionStorage
+            sessionStorage.setItem('chat_username', name);
+            // Redirect to chat page
+            window.location.href = 'chat.html';
+        });
+    </script>
 </body>
 </html>
