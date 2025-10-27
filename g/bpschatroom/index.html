@@ -1,95 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Web3 Retro Chat Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>BMS Messenger Login</title>
     <style>
-        /* Body */
         body {
-            font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            font-family: "Courier New", monospace;
+            background-color: #c0c0c0;
+            color: #000;
+            text-align: center;
             margin: 0;
+            padding: 0;
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 50px;
-            color: #00ffe7;
-            text-shadow: 0 0 10px #00ffe7, 0 0 20px #00ffe7;
+            font-size: 36px;
+            background-color: #000080;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            border-bottom: 4px solid #ffff00;
         }
 
         #login-box {
-            backdrop-filter: blur(15px);
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(0,255,231,0.5);
-            border-radius: 15px;
-            padding: 50px;
-            text-align: center;
-            box-shadow: 0 0 40px rgba(0,255,231,0.3);
-            width: 350px;
+            margin: 50px auto;
+            width: 300px;
+            padding: 20px;
+            border: 3px solid #000080;
+            background-color: #ffffff;
+            box-shadow: 5px 5px 0 #808080;
         }
 
-        #login-box input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 30px;
-            border: none;
-            border-radius: 10px;
+        #login-box input[type="text"],
+        #login-box input[type="password"] {
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 2px solid #000080;
             font-size: 16px;
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            outline: none;
-        }
-
-        #login-box input::placeholder {
-            color: #aaa;
         }
 
         #login-box button {
-            padding: 15px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(90deg, #00ffe7, #0080ff);
-            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #000080;
+            color: #ffffff;
+            border: 2px solid #000080;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s ease;
-            box-shadow: 0 0 20px rgba(0,255,231,0.5);
+            margin: 5px;
         }
 
         #login-box button:hover {
-            background: linear-gradient(90deg, #0080ff, #00ffe7);
-            box-shadow: 0 0 30px rgba(0,255,231,0.7);
+            background-color: #0000ff;
         }
 
         p {
-            font-size: 14px;
-            color: #00ffe7;
-            margin-top: 20px;
+            font-size: 12px;
+            color: #000080;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-    <h1>Web3 Chat</h1>
+    <h1>BMS Messenger</h1>
     <div id="login-box">
-        <input type="text" id="username" placeholder="Enter your username" required>
-        <button id="enter-chat">Enter Chat</button>
-        <p>All users share the same chatroom.</p>
+        <input type="text" id="username" placeholder="Username" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <button id="register-btn">Register</button>
+        <button id="login-btn">Login</button>
+        <p>All users share the same chatroom. You can also privately message others.</p>
     </div>
 
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
-        document.getElementById('enter-chat').addEventListener('click', () => {
-            const name = document.getElementById('username').value.trim();
-            if(name === '') return alert('Please enter your name.');
-            sessionStorage.setItem('chat_username', name);
-            window.location.href = 'chat.html';
+        const socket = io("http://72.203.184.19:5000");
+
+        // Register
+        document.getElementById('register-btn').addEventListener('click', () => {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            if(!username || !password) return alert("Enter both username and password.");
+            socket.emit('register', {username, password});
+        });
+
+        socket.on('register_response', data => {
+            alert(data.msg);
+        });
+
+        // Login
+        document.getElementById('login-btn').addEventListener('click', () => {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            if(!username || !password) return alert("Enter both username and password.");
+            socket.emit('login', {username, password});
+        });
+
+        socket.on('login_response', data => {
+            if(data.success){
+                sessionStorage.setItem('chat_username', document.getElementById('username').value.trim());
+                window.location.href = 'chat.html';
+            } else {
+                alert(data.msg);
+            }
         });
     </script>
 </body>
