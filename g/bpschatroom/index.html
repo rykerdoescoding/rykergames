@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retro Chat Login</title>
+    <style>
+        /* Body & background */
+        body {
+            font-family: "Courier New", monospace;
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            background-color: #003366;
+            color: #fff;
+            padding: 20px 40px;
+            border-bottom: 3px solid #ffcc00;
+            font-size: 32px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        /* Login box */
+        #login-box {
+            background-color: #fff;
+            border: 3px solid #003366;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        #login-box input[type="text"] {
+            width: 250px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #003366;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #login-box button {
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #003366;
+            color: #fff;
+            border: 2px solid #003366;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #login-box button:hover {
+            background-color: #0055aa;
+        }
+
+        p {
+            font-size: 14px;
+            color: #003366;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Retro Chat Login</h1>
+
+    <div id="login-box">
+        <form method="POST" action="http://72.203.184.19:5000/">
+            <input type="text" name="full_name" placeholder="Enter your full name" required><br>
+            <button type="submit">Enter Chat</button>
+        </form>
+        <p>All users share the same chatroom. Have fun!</p>
+    </div>
+</body>
+</html>
