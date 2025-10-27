@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta name="robots" content="noindex,follow">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <script src="https://abud1234.netlify.app/js/favicon.js"></script>
+    <script src="https://abud1234.netlify.app/js/panic.js"></script>
+    <script src="https://abud1234.netlify.app/js/timeTracker.js" defer></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X514E26P5B"></script>
+    <script src="https://abud1234.netlify.app/js/gtag.js"></script>
+    <script src="https://abud1234.netlify.app/js/auto-clicker.js"></script>
+    <title>Grades & Attendence</title>
+    <link rel="icon" type="image/x-icon" href="https://abud1234.netlify.app/images/favicon.png">
+  <!-- loader CSS/JS (keep as you had) -->
+  <link rel="stylesheet" href="/lib/game-loader/gameloader2020.css" />
+  <script src="/lib/game-loader/gameloader2020.js"></script>
+
+  <script>
+    var onOpenTimeout = 100,
+        onRewardedTimeout = 5000,
+        onCloseTimeout = 5100,
+        onCloseTimeoutFullAdv = 5100;
+  </script>
+  <script src="/lib/ysdk/v2.js"></script>
+  <script src="/lib/game-loader/logo_helper.js"></script>
+
+  <style>
+    /* minimal page layout so canvas fills viewport */
+    html,body{height:100%;margin:0;background:#000;}
+    #unity-container {width:100%;height:100%;position:relative;overflow:hidden;}
+    #unity-canvas{width:100%;height:100%;display:block;}
+    #spinner{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;}
+  </style>
+</head>
+<body>
+  <!-- Unity host elements the loader expects -->
+  <div id="unity-container">
+    <canvas id="unity-canvas" tabindex="0"></canvas>
+    <div id="spinner" aria-hidden="true">Loading…</div>
+  </div>
+
+<script>
+/* =========================
+   Safety & helper stubs
+   ========================= */
+
+/* If YaGames SDK isn't available (e.g. local dev or non-yandex host),
+   provide a minimal stub so code doesn't throw. On production Yandex
+   pages, their real /lib/ysdk/v2.js will replace this. */
+if (typeof YaGames === 'undefined') {
+  window.YaGames = {
+    init: async function() {
+      console.warn('YaGames stub init used (not real Yandex).');
+      return {
+        environment: { i18n: { lang: 'ru_RU', tld: 'com' }, app: { id: 'local' }, browser: { lang: navigator.language }, payload: null },
+        deviceInfo: { type: 'desktop', isMobile: ()=>false, isDesktop: ()=>true, isTablet: ()=>false, isTV: ()=>false },
+        screen: { fullscreen: { status: 'off', request: ()=>{} } },
+        adv: {
+          showFullscreenAdv: function(opts){ console.log('stub showFullscreenAdv'); if(opts && opts.callbacks && opts.callbacks.onClose) setTimeout(()=>opts.callbacks.onClose(true),1000); },
+          getBannerAdvStatus: async function(){ return { stickyAdvIsShowing:false }; },
+          showRewardedVideo: function(){ console.log('stub showRewardedVideo'); }
+        },
+        getPlayer: async function(){ return { isAuthorized: ()=>false, getName: ()=>'guest', getUniqueID: ()=>'local', getPhoto: ()=>'no', getPayingStatus: ()=>'none' }; },
+        getPayments: async function(){ return { getCatalog: async ()=>[], getPurchases: async ()=>[], purchase: async ()=>{} }; }
+      };
+    }
+  };
+}
+
+/* =========================
+   DOM references
+   ========================= */
+const canvas = document.getElementById('unity-canvas');
+const spinner = document.getElementById('spinner');
+
+/* =========================
+   Logging helper
+   Single implementation (optional style)
+   ========================= */
+function LogStyledMessage(message, style) {
+  if (style) console.log('%c' + message, style);
+  else console.log('%c' + message, 'color: #FFDF73; background-color: #454545');
+}
+
+/* =========================
+   Unified YG2Instance sender
+   (will attempt to send after 100ms if game isn't init)
+   ========================= */
+function YG2Instance(method, arg) {
+  if (!window.unityInstance) return;
+  const send = () => {
+    try {
+      if (typeof arg === 'undefined' || arg === null) window.unityInstance.SendMessage('YG2Instance', method);
+      else window.unityInstance.SendMessage('YG2Instance', method, arg);
+    } catch (e) {
+      console.error('YG2Instance SendMessage failed:', e);
+    }
+  };
+  if (!initGame) setTimeout(send, 100);
+  else send();
+}
+
+/* =========================
+   Focus handling
+   ========================= */
+document.addEventListener('contextmenu', e => e.preventDefault());
+function FocusGame() {
+  try {
+    window.focus();
+    if (canvas && typeof canvas.focus === 'function') canvas.focus();
+  } catch (e) { /* ignore */ }
+}
+window.addEventListener('pointerdown', FocusGame);
+window.addEventListener('touchstart', FocusGame);
+
+/* =========================
+   Yandex SDK init flow (safe)
+   ========================= */
+let ysdk = null;
+let initYSDK = false;
+let initGame = false;
+let syncInit = false;
+const NO_DATA = 'no data';
+
+function IsLocalHost() {
+  try {
+    if (window.top !== window) {
+      console.warn("The application is running in an iframe");
+      return false;
+    }
+    const host = window.location.hostname;
+    if (host === "localhost" || host === "127.0.0.1" || host.endsWith(".local")) {
+      LogStyledMessage("Local Host");
+      return true;
+    }
+  } catch (error) {
+    console.error("Error checking the local host:", error);
+    return false;
+  }
+  return false;
+}
+
+/* Single Init entry (called on load) */
+InitYSDK();
+
+async function InitYSDK() {
+  try {
+    if (IsLocalHost()) {
+      LogStyledMessage('Local host detected — skipping full Yandex init.');
+      // still attempt to init stub to avoid later null checks
+      ysdk = await YaGames.init();
+      initYSDK = true;
+      if (window.unityInstance != null) window.unityInstance.SendMessage('YG2Instance', 'InitSDKComplete');
+      return;
+    }
+
+    ysdk = await YaGames.init();
+    // safe: if any sub-call fails we catch below
+    InterAdvShow(); // can be a no-op in stub
+
+    await RequestingEnvironmentData();
+    LogStyledMessage('Init EnvirData ysdk');
+
+    await InitPlayer();
+    LogStyledMessage('Init Authorization ysdk');
+
+    await LoadCloud();
+    LogStyledMessage('Init Storage ysdk');
+
+    await InitPayments();
+    LogStyledMessage('Init Payments ysdk');
+
+    initYSDK = true;
+    if (window.unityInstance != null) window.unityInstance.SendMessage('YG2Instance', 'InitSDKComplete');
+    LogStyledMessage('Init YandexSDK Success');
+  } catch (e) {
+    console.error('CRASH Initialization SDK: ', e);
+  }
+  if (!IsLocalHost() && !syncInit) {
+    StartUnityInstance_IfUnloaded();
+  }
+}
+
+/* a safe StartUnityInstance trigger (loader may use this) */
+function StartUnityInstance_IfUnloaded() {
+  try {
+    if (typeof StartUnityInstance === 'function') {
+      // if the loader exposes StartUnityInstance, call it.
+      try { StartUnityInstance(); } catch(e) { /* ignore errors in loader call */ }
+    }
+  } catch(e){}
+}
+
+/* =========================
+   InitGame called by Unity when ready (keep)
+   ========================= */
+function InitGame() {
+  initGame = true;
+  setTimeout(function () {
+    if (nowFullAdOpen === true) YG2Instance('OpenInterAdv');
+  }, 100);
+}
+
+/* =========================
+   Cloud / player / payments helpers (safe)
+   ========================= */
+var cloudSaves = NO_DATA;
+function SaveCloud(jsonData, flush) {
+  if (!player) {
+    console.error('CRASH Save Cloud: Didnt have time to load');
+    return;
+  }
+  try {
+    player.setData({ saves: [jsonData] }, flush);
+  } catch (e) {
+    console.error('CRASH Save Cloud: ', e.message);
+  }
+}
+
+function LoadCloud() {
+  return new Promise((resolve) => {
+    if (ysdk == null) { Final(NO_DATA); return; }
+    try {
+      player.getData(["saves"]).then(data => {
+        Final(data.saves ? JSON.stringify(data.saves) : NO_DATA);
+      }).catch(() => {
+        console.error('Load Cloud Error!');
+        Final(NO_DATA);
+      });
+    } catch (e) {
+      console.error('CRASH Load saves Cloud: ', e.message);
+      Final(NO_DATA);
+    }
+
+    function Final(res) {
+      cloudSaves = res;
+      try { YG2Instance('SetLoadSaves', res); } catch(e){}
+      resolve(res);
+    }
+  });
+}
+
+function StickyAdActivity(show) {
+  try {
+    ysdk.adv.getBannerAdvStatus().then(({ stickyAdvIsShowing, reason }) => {
+      if (stickyAdvIsShowing) {
+        if (!show) ysdk.adv.hideBannerAdv();
+      } else if (reason) {
+        LogStyledMessage('StickyAdv are not shown. Reason:' + reason);
+      } else if (show) {
+        ysdk.adv.showBannerAdv();
+      }
+    });
+  } catch (e) {
+    console.error('CRASH StickyAdv activity: ', e.message);
+  }
+}
+
+function RewardedAdvShow(id) {
+  try {
+    ysdk.adv.showRewardedVideo({
+      callbacks: {
+        onOpen: () => { LogStyledMessage('Opened Rewarded Adv'); YG2Instance('OpenRewardedAdv'); },
+        onClose: () => { LogStyledMessage('Closed Rewarded Adv'); YG2Instance('CloseRewardedAdv'); FocusGame(); },
+        onRewarded: () => { YG2Instance('RewardAdv', id); },
+        onError: (err) => { console.error('Error Rewarded Adv', err); YG2Instance('ErrorRewardedAdv'); }
+      }
+    });
+  } catch (err) {
+    console.error('CRASH Rewarded Adv Show: ', err && err.message ? err.message : err);
+  }
+}
+
+/* Payments */
+var paymentsData = NO_DATA;
+let payments = null;
+
+function InitPayments() {
+  return new Promise((resolve) => {
+    try {
+      if (ysdk == null) { Final(NO_DATA); return; }
+      ysdk.getPayments().then(_payments => {
+        payments = _payments;
+        payments.getCatalog().then(products => {
+          payments.getPurchases().then(purchases => {
+            // Build minimal arrays (defensive)
+            const productID = [], title = [], description = [], imageURI = [], price = [], priceValue = [], priceCurrencyCode = [], currencyImageURL = [], consumed = [];
+            for (let i = 0; i < products.length; i++) {
+              productID[i] = products[i].id;
+              title[i] = products[i].title || '';
+              description[i] = products[i].description || '';
+              imageURI[i] = products[i].imageURI || '';
+              price[i] = products[i].price || '';
+              priceValue[i] = products[i].priceValue || 0;
+              priceCurrencyCode[i] = products[i].priceCurrencyCode || '';
+              currencyImageURL[i] = (products[i].getPriceCurrencyImage && products[i].getPriceCurrencyImage("medium")) || '';
+              consumed[i] = true;
+              for (let i2 = 0; i2 < purchases.length; i2++) {
+                if (purchases[i2].productID === productID[i]) { consumed[i] = false; break; }
+              }
+            }
+            const jsonPayments = {
+              id: productID, title, description, imageURI, price, priceValue, priceCurrencyCode, currencyImageURL, consumed,
+              language: ysdk.environment.i18n.lang
+            };
+            Final(JSON.stringify(jsonPayments));
+          });
+        });
+      }).catch(e => {
+        LogStyledMessage('Purchases are not available: ' + (e && e.message ? e.message : e));
+        Final(NO_DATA);
+      });
+    } catch (e) {
+      console.error('CRASH Init Payments: ', e && e.message ? e.message : e);
+      Final(NO_DATA);
+    }
+
+    function Final(res) {
+      paymentsData = res;
+      try { YG2Instance('PaymentsEntries', res); } catch (e){}
+      resolve(res);
+    }
+  });
+}
+
+function BuyPayments(id) {
+  try {
+    if (payments != null) {
+      payments.purchase(id).then(() => {
+        LogStyledMessage('Purchase Success');
+        ConsumePurchase(id, true);
+        FocusGame();
+      }).catch(e => {
+        console.error('Purchase Failed', e && e.message ? e.message : e);
+        YG2Instance('OnPurchaseFailed', id);
+        FocusGame();
+      });
+    } else {
+      LogStyledMessage('Payments == null');
+      YG2Instance('OnPurchaseFailed', id);
+    }
+  } catch (e) {
+    console.error('CRASH Buy Payments: ', e && e.message ? e.message : e);
+    YG2Instance('OnPurchaseFailed', id);
+    FocusGame();
+  }
+}
+
+function ConsumePurchase(id, onPurchaseSuccess) {
+  try {
+    if (payments != null) {
+      payments.getPurchases().then(purchases => {
+        for (let i = 0; i < purchases.length; i++) {
+          if (purchases[i].productID === id) {
+            payments.consumePurchase(purchases[i].purchaseToken);
+            if (onPurchaseSuccess) YG2Instance('OnPurchaseSuccess', id);
+          }
+        }
+      });
+    } else {
+      LogStyledMessage('Consume purchase: payments null');
+    }
+  } catch (e) {
+    console.error('CRASH Consume Purchase: ', e && e.message ? e.message : e);
+  }
+}
+
+function ConsumePurchases(onPurchaseSuccess) {
+  try {
+    if (payments != null) {
+      payments.getPurchases().then(purchases => {
+        LogStyledMessage('Unprocessed purchases: ' + purchases.length);
+        for (let i = 0; i < purchases.length; i++) {
+          payments.consumePurchase(purchases[i].purchaseToken);
+          if (onPurchaseSuccess) YG2Instance('OnPurchaseSuccess', purchases[i].productID);
+        }
+      });
+    } else {
+      LogStyledMessage('Consume purchases: payments null');
+    }
+  } catch (e) {
+    console.error('CRASH Consume purchases: ', e && e.message ? e.message : e);
+  }
+}
+
+/* Interstitial logic (safe) */
+let nowFullAdOpen = false;
+function InterAdvShow() {
+  try {
+    if (ysdk == null) { LogStyledMessage('Cancel InterAdvShow: SDK is not initialized'); return; }
+    if (nowFullAdOpen) { LogStyledMessage('Cancel InterAdvShow: The advertisement is already open'); return; }
+    ysdk.adv.showFullscreenAdv({
+      callbacks: {
+        onOpen: () => { LogStyledMessage('Open Interstitial Adv'); nowFullAdOpen = true; if (initGame) YG2Instance('OpenInterAdv'); },
+        onClose: (wasShown) => { LogStyledMessage('Close Interstitial Adv'); nowFullAdOpen = false; if (initGame) YG2Instance('CloseInterAdv', wasShown ? 'true' : 'false'); FocusGame(); },
+        onError: (error) => { console.error('Error Interstitial Adv', error); nowFullAdOpen = false; YG2Instance('ErrorInterAdv'); FocusGame(); }
+      }
+    });
+  } catch (e) {
+    console.error('CRASH Interstitial Adv Show: ', e && e.message ? e.message : e);
+  }
+}
+
+/* =========================
+   Environment data request (fixed browser detection)
+   ========================= */
+var environmentData = NO_DATA;
+function RequestingEnvironmentData() {
+  return new Promise((resolve) => {
+    if (ysdk == null) { Final(NO_DATA); return; }
+    try {
+      let ua = navigator.userAgent || '';
+      let browser = 'Other';
+      if (ua.includes('YaBrowser') || ua.includes('YaSearchBrowser')) browser = 'Yandex';
+      else if (ua.includes('OPR') || ua.includes('Opera')) browser = 'Opera';
+      else if (ua.includes('Firefox')) browser = 'Firefox';
+      else if (ua.includes('MSIE') || ua.includes('Trident')) browser = 'IE';
+      else if (ua.includes('Edge')) browser = 'Edge';
+      else if (ua.includes('Chrome')) browser = 'Chrome';
+      else if (ua.includes('Safari')) browser = 'Safari';
+
+      let jsonEnvir = {
+        language: ysdk.environment.i18n.lang,
+        domain: ysdk.environment.i18n.tld,
+        deviceType: ysdk.deviceInfo.type,
+        isMobile: ysdk.deviceInfo.isMobile(),
+        isDesktop: ysdk.deviceInfo.isDesktop(),
+        isTablet: ysdk.deviceInfo.isTablet(),
+        isTV: ysdk.deviceInfo.isTV(),
+        appID: ysdk.environment.app.id,
+        browserLang: ysdk.environment.browser.lang,
+        payload: ysdk.environment.payload,
+        platform: navigator.platform,
+        browser: browser
+      };
+      Final(JSON.stringify(jsonEnvir));
+      LogStyledMessage("Environment Data: " + JSON.stringify(jsonEnvir));
+    } catch (e) {
+      console.error('CRASH Requesting Environment Data: ', e && e.message ? e.message : e);
+      Final(NO_DATA);
+    }
+
+    function Final(res) {
+      environmentData = res;
+      try { YG2Instance('SetEnvirData', res); } catch(e){}
+      resolve(res);
+    }
+  });
+}
+
+/* =========================
+   Player init (safe)
+   ========================= */
+var playerData = NO_DATA;
+let player = null;
+async function InitPlayer() {
+  return new Promise(async (resolve) => {
+    try {
+      if (!ysdk) return Final(NotAuthorized());
+      player = await ysdk.getPlayer();
+      if (!player.isAuthorized()) return Final(NotAuthorized());
+      const authJson = {
+        playerAuth: "resolved",
+        playerName: player.getName(),
+        playerId: player.getUniqueID(),
+        playerPhoto: player.getPhoto('small'),
+        payingStatus: player.getPayingStatus()
+      };
+      return Final(JSON.stringify(authJson));
+    } catch (e) {
+      return Final(NotAuthorized());
+    }
+
+    function Final(res) {
+      playerData = res;
+      try { YG2Instance('SetAuth', res); } catch(e){}
+      resolve(res);
+    }
+  });
+}
+
+function NotAuthorized() {
+  let authJson = {
+    playerAuth: "rejected",
+    playerName: "unauthorized",
+    playerId: "unauthorized",
+    playerPhoto: "no data",
+    payingStatus: "unknown"
+  };
+  return JSON.stringify(authJson);
+}
+
+function OpenAuthDialog() {
+  if (ysdk !== null) {
+    try {
+      ysdk.auth.openAuthDialog().then(() => {
+        InitPlayer().then(() => { YG2Instance('LoggedIn'); });
+      });
+    } catch (e) {
+      LogStyledMessage('CRASH Open Auth Dialog: ' + (e && e.message ? e.message : e));
+    }
+  }
+}
+
+/* Simple logo alert (keeps your behavior) */
+document.addEventListener('DOMContentLoaded', (e) => { try { alertLogo("120",{top:"5px",left:"5px"}); } catch(e){} });
+</script>
+
+  <script>
+    var buildUrl = "https://st.8games.net/9/8g/igra-ukradi-brejnrot-original-3d/Build";
+    var loaderUrl = "https://st.8games.net/9/8g/igra-ukradi-brejnrot-original-3d/Build/StealBrainrot.loader.js";
+    var config = {
+      dataUrl: "https://st.8games.net/9/8g/igra-ukradi-brejnrot-original-3d/Build/d6ccccaf266bab16bf58f5725e76504e.data.br",
+      frameworkUrl: "https://st.8games.net/9/8g/igra-ukradi-brejnrot-original-3d/Build/8b2e24a34eb309de7efc1aeb6e648233.js",
+      codeUrl: "https://st.8games.net/9/8g/igra-ukradi-brejnrot-original-3d/Build/b7cf28e445ff2ecea47d5697909bb345.wasm.br",
+      streamingAssetsUrl: "https://st.8games.net/9/8g/igra-ukradi-brejnrot-original-3d/StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "Steal Brainrot",
+      productVersion: "1.0",
+    };
+
+    var canvas = document.querySelector("#unity-canvas");
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config).catch((message) => {
+        alert(message);
+        console.error(message);
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>

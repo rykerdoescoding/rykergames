@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://abud1234.netlify.app/js/favicon.js"></script>
+    <script src="https://abud1234.netlify.app/js/panic.js"></script>
+    <script src="https://abud1234.netlify.app/js/timeTracker.js" defer></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X514E26P5B"></script>
+    <script src="https://abud1234.netlify.app/js/gtag.js"></script>
+    <script src="https://abud1234.netlify.app/js/auto-clicker.js"></script>
+    <title>Grades & Attendence</title>
+    <link rel="icon" type="image/x-icon" href="https://abud1234.netlify.app/images/favicon.png">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+				<link rel="stylesheet" type="text/css" href="https://freegames.io/content/themes/bluewizard-theme/css/style.css" />
+				<style type="text/css">
+			body {
+				color: #eee;
+				position: inherit;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				height: 100%;
+				background: #000;
+			}
+			#splash-game-content {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 0;
+				height: 0;
+				overflow: hidden;
+				max-width: 100%;
+				max-height: 100%;
+				min-width: 100%;
+				min-height: 100%;
+				box-sizing: border-box;
+			}
+			.splash {
+				background: linear-gradient(-45deg,#7887db,#e86195);
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				z-index: 1;
+			}
+			.splash-content {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				z-index: 2;
+				transform: translate(-50%, -50%);
+				height: 100%;
+				width: 100%;
+			}
+			.splash-content img {
+				width: 180px;
+				height: auto;
+				border: 2px solid #fff;
+				border-radius: 8px;
+				margin: 0 auto;
+				display: block;
+			}
+			@media (max-width: 767.98px) { 
+				.splash-content img {
+					width: 100px;
+				}
+			}
+			.btn-play {
+				width: 184px;
+				height: 60px;
+				font-size: 20px;
+				font-weight: bold;
+				margin-top: 15px;
+				background: rgba(255, 255, 255, 0.8);
+				border: none;
+				border-radius: 40px;
+			}
+			.btn-play:hover {
+				cursor: pointer;
+			}
+			.splash-game-title {
+				position: absolute;
+				top: 92%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				font-size: 20px;
+			}
+
+			/* Splash Content Styles */
+			.splash-content {
+				position: relative;
+			}
+
+			.splash-content video,
+			.thumbnail-group {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				z-index: 2;
+				transform: translate(-50%, -50%);
+			}
+			.splash-thumbnail {
+				position: relative
+			}
+
+			.splash-content video {
+				object-fit: cover;
+				z-index: 2;
+				height: 100%;
+				filter: blur(3px);
+			}
+
+			.w-auto {
+				width: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="splash" id="splash">
+			<div class="splash-content position-relative">
+				<video id="splash-video" class="splash-video position-absolute" src="https://freegames.io/files/videos/deadshot_compressed_ns.mp4" autoplay muted loop></video>
+				<div class="thumbnail-group">
+					<div class="splash-thumbnail">
+						<img src="https://freegames.io/files/images/512_dead_firefly_20240424161537.jpg">
+					</div>
+					<p class="game-blocked-text h3" style="display: none"></p>
+					<button class="btn-play d-block mx-centre" onclick="play_game()">Play</button>
+				</div>
+			</div>
+			<div class="splash-game-title">Deadshot.io</div>
+		</div>
+		<iframe id="splash-game-content" frameborder="0" allow="autoplay" allowfullscreen="" seamless="" scrolling="no" data-src="https://deadshot.io/"></iframe>
+		<script type="text/javascript">
+				// Set up variables from PHP
+				const isGameMobile = 0;
+				const gameRemoved = 0;
+				const isMobileDevice = 0;
+				const hideVideoAds = 1;
+				const playBtn = document.querySelector('.btn-play');
+			
+				document.addEventListener("DOMContentLoaded", () => {
+					const pageTitle = 'Deadshot.io';	
+
+					function gameNotAvailable() {
+					if (playBtn) {
+						const linkTo = parent.document.getElementById('game-content-single-similar-footer');
+						const gameContent = parent.document.getElementById('single-game-content');
+						const gameBlockedText = document.querySelector('.game-blocked-text');
+						const scrollBehaviour = { behavior: 'smooth', block: 'start', inline: 'center' };
+						gameBlockedText.textContent = `Looks like ${pageTitle} is unavailable!`;
+						gameBlockedText.style.display = 'block';
+						// Update play button text
+						playBtn.classList.add('w-auto');
+						playBtn.textContent = `Try a similar game below `;
+						playBtn.onclick = (e) => {
+							e.preventDefault();
+							playBtn.scrollIntoView(scrollBehaviour); 
+						};
+
+						// Scroll to the linkTo element if gameContent exists
+						if (gameContent && linkTo) {
+							gameContent.onclick = (e) => {
+								linkTo.scrollIntoView(scrollBehaviour);
+							};
+						}
+					}
+				}
+
+				if (gameRemoved) {
+					gameNotAvailable();
+				}
+
+				// Message event handler
+				const messageHandler = (event) => {
+
+					// Ensure the message is from a trusted source
+					if (!event.origin.includes('freegames')) return;
+					switch (event.data) {
+						case 'gameBlocked':
+							gameNotAvailable();
+							break;
+						case 'aipRemoveSplash':
+							removeSplash();
+							break;
+					
+						default:
+							break;
+					}
+
+					// Remove the event listener after handling the message
+					window.removeEventListener('message', messageHandler);
+				};
+
+				// Add the message event listener
+				window.addEventListener('message', messageHandler);
+			});
+
+			function removeSplash() {
+				const splash = document.getElementById("splash");
+                const splashVideo = document.getElementById('splash-video');
+				const splashGameContent = document.getElementById("splash-game-content");
+
+				if (splash) splash.remove();
+                
+                if (splashVideo) splashVideo.remove();
+
+				if (splashGameContent) {
+					splashGameContent.src = splashGameContent.dataset.src;
+				}
+
+				if (isGameMobile && isMobileDevice) {
+					parent.open_fullscreen();
+				}
+			}
+
+			// function playAd() {
+			// 	setTimeout(removeSplash, 3000);
+			// }
+
+			function play_game() {
+				if (isMobileDevice && !isGameMobile) {
+					parent.window.location.href = '/category/mobile';
+					return;
+				}
+
+				if (hideVideoAds) {
+					removeSplash();
+					return;
+				}
+
+				const storageKey = 'lastAdTime';
+				const currentTime = Date.now();
+				const fourMinutes = 4 * 60 * 1000; // 4 minutes in milliseconds
+				const lastAdTime = localStorage.getItem(storageKey);
+
+
+				if (lastAdTime) {
+					const timeElapsed = currentTime - parseInt(lastAdTime, 10);
+					if (timeElapsed >= fourMinutes) {
+						parent.show_videoad();
+						localStorage.setItem(storageKey, currentTime.toString());
+					} else {
+						removeSplash();
+					}
+				} else {
+					// If no ad time is set, play ad and set current time
+					parent.show_videoad();
+					localStorage.setItem(storageKey, currentTime.toString());
+				}
+			}
+
+		</script>
+	</body>
+	</html>
