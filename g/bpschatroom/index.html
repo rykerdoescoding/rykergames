@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Retro Chat Login</title>
+    <title>Web3 Retro Chat Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Body */
         body {
-            font-family: "Courier New", monospace;
-            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,71 +18,77 @@
         }
 
         h1 {
-            background-color: #003366;
-            color: #fff;
-            padding: 20px 40px;
-            border-bottom: 3px solid #ffcc00;
-            font-size: 32px;
+            font-size: 3em;
             margin-bottom: 50px;
-            text-align: center;
+            color: #00ffe7;
+            text-shadow: 0 0 10px #00ffe7, 0 0 20px #00ffe7;
         }
 
         #login-box {
-            background-color: #fff;
-            border: 3px solid #003366;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(15px);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,255,231,0.5);
+            border-radius: 15px;
+            padding: 50px;
             text-align: center;
+            box-shadow: 0 0 40px rgba(0,255,231,0.3);
+            width: 350px;
         }
 
         #login-box input[type="text"] {
-            width: 250px;
-            padding: 10px;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 10px;
             font-size: 16px;
-            border: 2px solid #003366;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            outline: none;
+        }
+
+        #login-box input::placeholder {
+            color: #aaa;
         }
 
         #login-box button {
-            padding: 10px 25px;
-            font-size: 16px;
-            background-color: #003366;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #00ffe7, #0080ff);
             color: #fff;
-            border: 2px solid #003366;
-            border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.3s ease;
+            box-shadow: 0 0 20px rgba(0,255,231,0.5);
         }
 
         #login-box button:hover {
-            background-color: #0055aa;
+            background: linear-gradient(90deg, #0080ff, #00ffe7);
+            box-shadow: 0 0 30px rgba(0,255,231,0.7);
         }
 
         p {
             font-size: 14px;
-            color: #003366;
+            color: #00ffe7;
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Retro Chat Login</h1>
+    <h1>Web3 Chat</h1>
     <div id="login-box">
-        <input type="text" id="username" placeholder="Enter your full name" required>
-        <br><br>
+        <input type="text" id="username" placeholder="Enter your username" required>
         <button id="enter-chat">Enter Chat</button>
-        <p>big group chat for everyone in bps, thats on the website</p>
+        <p>All users share the same chatroom.</p>
     </div>
 
     <script>
         document.getElementById('enter-chat').addEventListener('click', () => {
             const name = document.getElementById('username').value.trim();
             if(name === '') return alert('Please enter your name.');
-            // Save the username in sessionStorage
             sessionStorage.setItem('chat_username', name);
-            // Redirect to chat page
             window.location.href = 'chat.html';
         });
     </script>

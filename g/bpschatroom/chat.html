@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Retro Chatroom</title>
+    <title>Web3 Retro Chatroom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <style>
         body {
-            font-family: "Courier New", monospace;
-            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,83 +17,98 @@
         }
 
         h1 {
-            background-color: #003366;
-            color: #fff;
+            font-size: 2.5em;
             padding: 20px;
             width: 100%;
             text-align: center;
             margin: 0;
-            border-bottom: 3px solid #ffcc00;
-            font-size: 28px;
+            background: rgba(0,0,0,0.3);
+            color: #00ffe7;
+            text-shadow: 0 0 10px #00ffe7;
         }
 
         #chat-box {
             width: 80%;
-            max-width: 800px;
-            height: 500px;
+            max-width: 900px;
+            height: 550px;
             margin: 20px 0;
-            border: 3px solid #003366;
-            background-color: #fff;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,255,231,0.5);
+            backdrop-filter: blur(15px);
             overflow-y: scroll;
-            padding: 10px;
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+            padding: 20px;
+            box-shadow: 0 0 40px rgba(0,255,231,0.3);
         }
 
         .msg {
             margin: 5px 0;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #003366;
+            padding: 10px 15px;
+            border-radius: 15px;
             max-width: 70%;
+            word-wrap: break-word;
         }
 
         .msg.user {
-            background-color: #fffbcc;
+            background: rgba(0,255,231,0.2);
+            border-left: 4px solid #00ffe7;
         }
 
         .msg.system {
-            background-color: #e0e0e0;
             text-align: center;
             font-style: italic;
+            color: #aaa;
         }
 
         .user-label {
             font-weight: bold;
+            color: #00ffe7;
             margin-right: 5px;
-            color: #003366;
         }
 
         #message-form {
             width: 80%;
-            max-width: 800px;
+            max-width: 900px;
             display: flex;
             margin-bottom: 40px;
         }
 
         #message-input {
             flex: 1;
-            padding: 10px;
+            padding: 15px;
             font-size: 16px;
-            border: 2px solid #003366;
-            border-radius: 5px 0 0 5px;
+            border-radius: 15px 0 0 15px;
+            border: none;
             outline: none;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        #message-input::placeholder {
+            color: #aaa;
         }
 
         #send-btn {
-            padding: 10px 20px;
-            background-color: #003366;
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 0 15px 15px 0;
+            background: linear-gradient(90deg, #00ffe7, #0080ff);
             color: #fff;
-            border: 2px solid #003366;
-            border-radius: 0 5px 5px 0;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.3s ease;
+            box-shadow: 0 0 20px rgba(0,255,231,0.5);
         }
 
-        #send-btn:hover { background-color: #0055aa; }
+        #send-btn:hover {
+            background: linear-gradient(90deg, #0080ff, #00ffe7);
+            box-shadow: 0 0 30px rgba(0,255,231,0.7);
+        }
     </style>
 </head>
 <body>
-    <h1>Retro Chat!</h1>
+    <h1>BPS Chat</h1>
     <div id="chat-box"></div>
     <form id="message-form">
         <input id="message-input" placeholder="Type your message..." autocomplete="off">
@@ -100,20 +116,15 @@
     </form>
 
     <script>
-        // Get username from sessionStorage
         const username = sessionStorage.getItem('chat_username') || 'Anonymous';
-
-        // Connect to Python backend
         const socket = io("http://72.203.184.19:5000");
 
-        // Join room
         socket.emit('join', {name: username});
 
         const chatBox = document.getElementById('chat-box');
         const form = document.getElementById('message-form');
         const input = document.getElementById('message-input');
 
-        // Receive messages
         socket.on('message', data => {
             const div = document.createElement('div');
             div.classList.add('msg');
@@ -128,7 +139,6 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         });
 
-        // Send messages
         form.addEventListener('submit', e => {
             e.preventDefault();
             if(input.value.trim() !== ''){
