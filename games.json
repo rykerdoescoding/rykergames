@@ -1,87 +1,646 @@
 {
   "games": [
-    { "title": "Slope", "path": "g/slope", "image": "images/slope.png", "category": "RACING" },
-    { "title": "Retro Bowl", "path": "g/retro-bowl", "image": "images/retrobowl.jpg", "category": "SPORTS" },
-    { "title": "Gunspin", "path": "g/gunspin", "image": "/images/gunspin.png", "category": "ACTION" },
-    { "title": "1v1.lol", "path": "g/1v1lol", "image": "https://play-lh.googleusercontent.com/QYGRIDJbyVO7L7jH8CwiKJ4NumTGgcTVqU3ITooLWxro-eeNns1RZ0uwGGFe-r8M4co", "category": "ACTION" },
-    { "title": "Block Blast", "path": "g/blockblast", "image": "images/blockblast.png", "category": "PUZZLE" },
-    { "title": "Idle Breakout", "path": "g/idle-breakout", "image": "images/idlebreakout.png", "category": "IDLE" },
-    { "title": "Learn To Fly", "path": "g/learntofly", "image": "g/learntofly/1/icon.png", "category": "ARCADE" },
-    { "title": "Baldi's Basics", "path": "g/baldisbasics", "image": "images/baldisbasics.png", "category": "HORROR" },
-    { "title": "Gun Mayhem", "path": "g/gunmayhem", "image": "images/gunmayhem.png", "category": "ACTION" },
-    { "title": "Gun Mayhem 2", "path": "g/gunmayhem2", "image": "images/gunmayhem2.png", "category": "ACTION" },
-    { "title": "Wall Smash", "path": "g/wallsmash", "image": "images/wallsmash.png", "category": "ARCADE" },
-    { "title": "FNAF 1", "path": "g/fnaf", "image": "images/fnaf.png", "category": "HORROR" },
-    { "title": "FNAF 2", "path": "g/fnaf-2", "image": "images/fnaf2.png", "category": "HORROR" },
-    { "title": "Drift Boss", "path": "g/driftboss", "image": "images/driftboss.png", "category": "RACING" },
-    { "title": "Jack Smith", "path": "g/jacksmith", "image": "images/jacksmith.png", "category": "ADVENTURE" },
-    { "title": "Image Tracer", "path": "/imagetracer", "image": "images/imagetracer.png", "category": "TOOLS" },
-    { "title": "Infinite Craft", "path": "g/infinitecraft", "image": "images/infinitecraft.png", "category": "PUZZLE" },
-    { "title": "Crazy Tunnel 3D", "path": "g/crazytunnel3d", "image": "images/crazytunnel3d.png", "category": "RACING" },
-    { "title": "Lazy Jump 3D", "path": "g/lazyjump3d", "image": "images/lazyjump3d.png", "category": "ARCADE" },
-    { "title": "House Of Hazards", "path": "g/houseofhazards", "image": "images/houseofhazards.png", "category": "ACTION" },
-    { "title": "Hole.io", "path": "g/holeio", "image": "images/holeio.png", "category": "IO" },
-    { "title": "Cut The Rope", "path": "g/cut-the-rope", "image": "images/cuttherope.png", "category": "PUZZLE" },
-    { "title": "Tank Trouble", "path": "g/tanktrouble", "image": "images/tanktrouble.png", "category": "ACTION" },
-    { "title": "Drift Hunters", "path": "g/drifthunters", "image": "images/drifthunters.png", "category": "RACING" },
-    { "title": "Volley Random", "path": "g/volleyrandom", "image": "images/volleyrandom.png", "category": "SPORTS" },
-    { "title": "Draw The Hill", "path": "g/draw-the-hill", "image": "images/drawthehill.png", "category": "PUZZLE" },
-    { "title": "Basketball Bros", "path": "g/basketballio", "image": "images/basketballio.png", "category": "SPORTS" },
-    { "title": "Just Fall", "path": "g/justfall", "image": "images/justfall.png", "category": "ARCADE" },
-    { "title": "Snow Rider 3D", "path": "g/snowrider3d", "image": "images/snowrider3d.png", "category": "RACING" },
-    { "title": "Tetris", "path": "g/tetris", "image": "images/tetris.png", "category": "PUZZLE" },
-    { "title": "Checkout Frenzy", "path": "g/checkoutfrenzy", "image": "images/checkoutfrenzy.png", "category": "SIMULATION" },
-    { "title": "Fireboy & Watergirl", "path": "g/fireboywatergirlforsettemple", "image": "images/fireboywatergirl.jpeg", "category": "PUZZLE" },
-    { "title": "Tiny Fishing", "path": "g/tinyfishing", "image": "images/tinyfishing.png", "category": "CASUAL" },
-    { "title": "Time Shooter", "path": "g/timeshooter", "image": "images/timeshooter.png", "category": "ACTION" },
-    { "title": "Getaway Shootout", "path": "g/getaway-shootout", "image": "images/getawayshootout.png", "category": "ACTION" },
-    { "title": "Soccer Random", "path": "g/soccer-random", "image": "images/soccerrandom.png", "category": "SPORTS" },
-    { "title": "Crossy Road", "path": "g/crossyroad", "image": "images/crossyroad.png", "category": "ARCADE" },
-    { "title": "Rooftop Sniper", "path": "g/rooftopsnipers", "image": "images/rooftopsnipers.png", "category": "ACTION" },
-    { "title": "Boxing Random", "path": "g/boxingrandom", "image": "images/boxingrandom.png", "category": "SPORTS" },
-    { "title": "Adventure Capitalist", "path": "g/adventurecapitalist", "image": "images/adventurecapitalist.png", "category": "IDLE" },
-    { "title": "Hide & Smash", "path": "g/hideandsmash", "image": "images/hideandsmash.png", "category": "ACTION" },
-    { "title": "MonkeyMart", "path": "g/monkey-mart", "image": "images/monkeymart.png", "category": "SIMULATION" },
-    { "title": "Retro Bowl College", "path": "g/rb-college", "image": "images/retrobowlcollege.jpg", "category": "SPORTS" },
-    { "title": "Windows Desktop", "path": "server", "image": "images/windows.png", "category": "SIMULATION" },
-    { "title": "Minecraft", "path": "g/mc", "image": "images/mc.png", "category": "ADVENTURE" },
-    { "title": "Bloons TD5", "path": "g/btd5", "image": "images/btd5.png", "category": "STRATEGY" },
-    { "title": "Mr Mine", "path": "g/mrmine", "image": "images/mrmine.png", "category": "IDLE" },
-    { "title": "Run 2", "path": "g/run2", "image": "images/run2.png", "category": "ARCADE" },
-    { "title": "Run 3", "path": "g/run3", "image": "images/run3.png", "category": "ARCADE" },
-    { "title": "Spend Elon's Money", "path": "g/elonmusk", "image": "images/elonmusk.png", "category": "SIMULATION" },
-    { "title": "Plants V Zombies", "path": "g/pvz", "image": "images/pvz.png", "category": "STRATEGY" },
-    { "title": "Duck Life", "path": "g/ducklife", "image": "images/ducklife.png", "category": "SIMULATION" },
-    { "title": "Mine Sweeper", "path": "g/minesweeper", "image": "images/minesweeper.png", "category": "PUZZLE" },
-    { "title": "Pixel Gun", "path": "g/pixelgun", "image": "images/pixelgun.png", "category": "ACTION" },
-    { "title": "Google Snake", "path": "g/googlesnake", "image": "images/googlesnake.jpg", "category": "ARCADE" },
-    { "title": "N Gon", "path": "g/ngon", "image": "images/ngon.jpg", "category": "ACTION" },
-    { "title": "OVO", "path": "g/ovo", "image": "images/ovo.jpg", "category": "PLATFORMER" },
-    { "title": "Basketball Stars", "path": "g/basketballstars", "image": "images/basketballstars.png", "category": "SPORTS" },
-    { "title": "Stacktris", "path": "g/stacktris", "image": "images/stacktris.jpg", "category": "PUZZLE" },
-    { "title": "Black Jack", "path": "g/blackjack", "image": "images/blackjack.png", "category": "CARD" },
-    { "title": "DBZ Devolution", "path": "g/dbz", "image": "images/dbz.png", "category": "FIGHTING" },
-    { "title": "Drive Mad", "path": "g/drivemad", "image": "images/drivemad.png", "category": "RACING" },
-    { "title": "Papa's Games", "path": "g/papas-game", "image": "images/papasgame.jpg", "category": "SIMULATION" },
-    { "title": "Stickman Games", "path": "g/henry-stickman", "image": "https://cdn2.steamgriddb.com/icon/9f61408e3afb633e50cdf1b20de6f466.png", "category": "ADVENTURE" },
-    { "title": "Vex Games", "path": "g/vex", "image": "https://play-lh.googleusercontent.com/0OnVFzHIMuLLeMjvACoNzxRbungfOH1zH4hUWQnIg5KfM2va_mFssFuRGq26WqWA", "category": "PLATFORMER" },
-    { "title": "2048", "path": "g/2048", "image": "images/2048.png", "category": "PUZZLE" },
-    { "title": "Paper.io 2", "path": "g/paperio2", "image": "images/paperio2.png", "category": "IO" },
-    { "title": "Bitlife", "path": "g/bitlife", "image": "https://play-lh.googleusercontent.com/fUM-UyywXxjC8soxAZdIlxJrlRRXmql8wkE426SHzft4lJycSKVd2jCYQQX1BEG9Xw", "category": "SIMULATION" },
-    { "title": "1", "path": "g/1", "image": "https://d3nsrxdg84ic1d.cloudfront.net/uploads/5a145eaa-3696-4de4-8c1d-41400e3d296c/e8ccaaae.PNG?v=0", "category": "PUZZLE" },
-    { "title": "Subway Surfers", "path": "g/subway-surfers", "image": "https://img.poki.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/81a0a3f18cf0ee129e56edb50fc52c3b.png", "category": "ENDLESS RUNNER" },
-    { "title": "Basketball Random", "path": "g/basketball-random", "image": "https://play-lh.googleusercontent.com/gP8T5Z1O-ngxIloiwcBZzrzyLPYDp0R_1BDNKUDZboIRPVImeyWI8-7aExvB9gAGNKc=w240-h480-rw", "category": "SPORTS" },
-    { "title": "MotoX3M", "path": "g/motox3m", "image": "images/motocross.png", "category": "RACING" },
-    { "title": "Cookie Clicker", "path": "g/cookieclicker", "image": "https://play-lh.googleusercontent.com/Z1MOuuiD05ZN5LkVmMEvKF0mqAc-FknaQ2j8s4dZiO-LSPQX4EEA3RVJdlQEtxe96ok", "category": "IDLE" },
-    { "title": "Temple Run 2", "path": "g/temple-run-2", "image": "https://play-lh.googleusercontent.com/go4XqS4mYs-G2tZymiVLF4wJYXIi5QrvwixNRzssk4G_vRBHrAdg4E1ddNwy9c2cZA", "category": "ENDLESS RUNNER" },
-    { "title": "Stickman Golf", "path": "g/stickman-golf", "image": "https://image.spreadshirtmedia.com/image-server/v1/products/T1459A839PA3861PT28D12687618W6161H10000/views/1,width=550,height=550,appearanceId=839,backgroundColor=F2F2F2/golf-stickman-sticker.jpg", "category": "SPORTS" },
-    { "title": "CSGO Case Opener", "path": "g/case-clicker", "image": "images/csgoclicker.png", "category": "SIMULATION" },
-    { "title": "Pandemic 2", "path": "g/pandemic2", "image": "images/pandemic2.png", "category": "STRATEGY" },
-    { "title": "Riddle School Games", "path": "g/riddleschool", "image": "https://i.ytimg.com/vi/Ls5rT-7_4d4/sddefault.jpg", "category": "ADVENTURE" },
-    { "title": "Cupcake 2048", "path": "g/cupcake2048", "image": "images/cupcake2048.png", "category": "PUZZLE" },
-    { "title": "Jetpack Joyride", "path": "g/jetpack-joyride", "image": "images/jetpackjoyride.png", "category": "ARCADE" },
-    { "title": "Geometry Dash", "path": "g/geodash", "image": "images/geodash.jpg", "category": "PLATFORMER" },
-    { "title": "Duck Life 1", "path": "g/ducklife1", "image": "images/ducklife1.png", "category": "SIMULATION" },
-    { "title": "Sand Boxels", "path": "g/sandboxels", "image": "https://sandboxels.r74n.com/icons/icon.png", "category": "SANDBOX" }
+    {
+      "title": "Slope",
+      "path": "g/slope",
+      "image": "images/slope.png",
+      "category": "RACING"
+    },
+    {
+      "title": "Retro Bowl",
+      "path": "g/retro-bowl",
+      "image": "images/retrobowl.jpg",
+      "category": "SPORTS"
+    },
+    {
+      "title": "Gunspin",
+      "path": "g/gunspin",
+      "image": "/images/gunspin.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "1v1.lol",
+      "path": "g/1v1lol",
+      "image": "https://play-lh.googleusercontent.com/QYGRIDJbyVO7L7jH8CwiKJ4NumTGgcTVqU3ITooLWxro-eeNns1RZ0uwGGFe-r8M4co",
+      "category": "ACTION"
+    },
+    {
+      "title": "Block Blast",
+      "path": "g/blockblast",
+      "image": "images/blockblast.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Idle Breakout",
+      "path": "g/idle-breakout",
+      "image": "images/idlebreakout.png",
+      "category": "IDLE"
+    },
+    {
+      "title": "Learn To Fly",
+      "path": "g/learntofly",
+      "image": "g/learntofly/1/icon.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "Baldi's Basics",
+      "path": "g/baldisbasics",
+      "image": "images/baldisbasics.png",
+      "category": "HORROR"
+    },
+    {
+      "title": "Gun Mayhem",
+      "path": "g/gunmayhem",
+      "image": "images/gunmayhem.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Gun Mayhem 2",
+      "path": "g/gunmayhem2",
+      "image": "images/gunmayhem2.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Wall Smash",
+      "path": "g/wallsmash",
+      "image": "images/wallsmash.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "FNAF 1",
+      "path": "g/fnaf",
+      "image": "images/fnaf.png",
+      "category": "HORROR"
+    },
+    {
+      "title": "FNAF 2",
+      "path": "g/fnaf-2",
+      "image": "images/fnaf2.png",
+      "category": "HORROR"
+    },
+    {
+      "title": "Drift Boss",
+      "path": "g/driftboss",
+      "image": "images/driftboss.png",
+      "category": "RACING"
+    },
+    {
+      "title": "Jack Smith",
+      "path": "g/jacksmith",
+      "image": "images/jacksmith.png",
+      "category": "ADVENTURE"
+    },
+    {
+      "title": "Image Tracer",
+      "path": "/imagetracer",
+      "image": "images/imagetracer.png",
+      "category": "TOOLS"
+    },
+    {
+      "title": "Infinite Craft",
+      "path": "g/infinitecraft",
+      "image": "images/infinitecraft.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Crazy Tunnel 3D",
+      "path": "g/crazytunnel3d",
+      "image": "images/crazytunnel3d.png",
+      "category": "RACING"
+    },
+    {
+      "title": "Lazy Jump 3D",
+      "path": "g/lazyjump3d",
+      "image": "images/lazyjump3d.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "House Of Hazards",
+      "path": "g/houseofhazards",
+      "image": "images/houseofhazards.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Hole.io",
+      "path": "g/holeio",
+      "image": "images/holeio.png",
+      "category": "IO"
+    },
+    {
+      "title": "Cut The Rope",
+      "path": "g/cut-the-rope",
+      "image": "images/cuttherope.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Tank Trouble",
+      "path": "g/tanktrouble",
+      "image": "images/tanktrouble.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Drift Hunters",
+      "path": "g/drifthunters",
+      "image": "images/drifthunters.png",
+      "category": "RACING"
+    },
+    {
+      "title": "Volley Random",
+      "path": "g/volleyrandom",
+      "image": "images/volleyrandom.png",
+      "category": "SPORTS"
+    },
+    {
+      "title": "Draw The Hill",
+      "path": "g/draw-the-hill",
+      "image": "images/drawthehill.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Basketball Bros",
+      "path": "g/basketballio",
+      "image": "images/basketballio.png",
+      "category": "SPORTS"
+    },
+    {
+      "title": "Just Fall",
+      "path": "g/justfall",
+      "image": "images/justfall.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "Snow Rider 3D",
+      "path": "g/snowrider3d",
+      "image": "images/snowrider3d.png",
+      "category": "RACING"
+    },
+    {
+      "title": "Tetris",
+      "path": "g/tetris",
+      "image": "images/tetris.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Checkout Frenzy",
+      "path": "g/checkoutfrenzy",
+      "image": "images/checkoutfrenzy.png",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Fireboy & Watergirl",
+      "path": "g/fireboywatergirlforsettemple",
+      "image": "images/fireboywatergirl.jpeg",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Tiny Fishing",
+      "path": "g/tinyfishing",
+      "image": "images/tinyfishing.png",
+      "category": "CASUAL"
+    },
+    {
+      "title": "Time Shooter",
+      "path": "g/timeshooter",
+      "image": "images/timeshooter.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Getaway Shootout",
+      "path": "g/getaway-shootout",
+      "image": "images/getawayshootout.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Soccer Random",
+      "path": "g/soccer-random",
+      "image": "images/soccerrandom.png",
+      "category": "SPORTS"
+    },
+    {
+      "title": "Crossy Road",
+      "path": "g/crossyroad",
+      "image": "images/crossyroad.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "Rooftop Sniper",
+      "path": "g/rooftopsnipers",
+      "image": "images/rooftopsnipers.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Boxing Random",
+      "path": "g/boxingrandom",
+      "image": "images/boxingrandom.png",
+      "category": "SPORTS"
+    },
+    {
+      "title": "Adventure Capitalist",
+      "path": "g/adventurecapitalist",
+      "image": "images/adventurecapitalist.png",
+      "category": "IDLE"
+    },
+    {
+      "title": "Hide & Smash",
+      "path": "g/hideandsmash",
+      "image": "images/hideandsmash.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "MonkeyMart",
+      "path": "g/monkey-mart",
+      "image": "images/monkeymart.png",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Retro Bowl College",
+      "path": "g/rb-college",
+      "image": "images/retrobowlcollege.jpg",
+      "category": "SPORTS"
+    },
+    {
+      "title": "Windows Desktop",
+      "path": "server",
+      "image": "images/windows.png",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Minecraft",
+      "path": "g/mc",
+      "image": "images/mc.png",
+      "category": "ADVENTURE"
+    },
+    {
+      "title": "Bloons TD5",
+      "path": "g/btd5",
+      "image": "images/btd5.png",
+      "category": "STRATEGY"
+    },
+    {
+      "title": "Mr Mine",
+      "path": "g/mrmine",
+      "image": "images/mrmine.png",
+      "category": "IDLE"
+    },
+    {
+      "title": "Run 2",
+      "path": "g/run2",
+      "image": "images/run2.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "Run 3",
+      "path": "g/run3",
+      "image": "images/run3.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "Spend Elon's Money",
+      "path": "g/elonmusk",
+      "image": "images/elonmusk.png",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Plants V Zombies",
+      "path": "g/pvz",
+      "image": "images/pvz.png",
+      "category": "STRATEGY"
+    },
+    {
+      "title": "Duck Life",
+      "path": "g/ducklife",
+      "image": "images/ducklife.png",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Mine Sweeper",
+      "path": "g/minesweeper",
+      "image": "images/minesweeper.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Pixel Gun",
+      "path": "g/pixelgun",
+      "image": "images/pixelgun.png",
+      "category": "ACTION"
+    },
+    {
+      "title": "Google Snake",
+      "path": "g/googlesnake",
+      "image": "images/googlesnake.jpg",
+      "category": "ARCADE"
+    },
+    {
+      "title": "N Gon",
+      "path": "g/ngon",
+      "image": "images/ngon.jpg",
+      "category": "ACTION"
+    },
+    {
+      "title": "OVO",
+      "path": "g/ovo",
+      "image": "images/ovo.jpg",
+      "category": "PLATFORMER"
+    },
+    {
+      "title": "Basketball Stars",
+      "path": "g/basketballstars",
+      "image": "images/basketballstars.png",
+      "category": "SPORTS"
+    },
+    {
+      "title": "Stacktris",
+      "path": "g/stacktris",
+      "image": "images/stacktris.jpg",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Black Jack",
+      "path": "g/blackjack",
+      "image": "images/blackjack.png",
+      "category": "CARD"
+    },
+    {
+      "title": "DBZ Devolution",
+      "path": "g/dbz",
+      "image": "images/dbz.png",
+      "category": "FIGHTING"
+    },
+    {
+      "title": "Drive Mad",
+      "path": "g/drivemad",
+      "image": "images/drivemad.png",
+      "category": "RACING"
+    },
+    {
+      "title": "Papa's Games",
+      "path": "g/papas-game",
+      "image": "images/papasgame.jpg",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Stickman Games",
+      "path": "g/henry-stickman",
+      "image": "https://cdn2.steamgriddb.com/icon/9f61408e3afb633e50cdf1b20de6f466.png",
+      "category": "ADVENTURE"
+    },
+    {
+      "title": "Vex Games",
+      "path": "g/vex",
+      "image": "https://play-lh.googleusercontent.com/0OnVFzHIMuLLeMjvACoNzxRbungfOH1zH4hUWQnIg5KfM2va_mFssFuRGq26WqWA",
+      "category": "PLATFORMER"
+    },
+    {
+      "title": "2048",
+      "path": "g/2048",
+      "image": "images/2048.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Paper.io 2",
+      "path": "g/paperio2",
+      "image": "images/paperio2.png",
+      "category": "IO"
+    },
+    {
+      "title": "Bitlife",
+      "path": "g/bitlife",
+      "image": "https://play-lh.googleusercontent.com/fUM-UyywXxjC8soxAZdIlxJrlRRXmql8wkE426SHzft4lJycSKVd2jCYQQX1BEG9Xw",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "1",
+      "path": "g/1",
+      "image": "https://d3nsrxdg84ic1d.cloudfront.net/uploads/5a145eaa-3696-4de4-8c1d-41400e3d296c/e8ccaaae.PNG?v=0",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Subway Surfers",
+      "path": "g/subway-surfers",
+      "image": "https://img.poki.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/81a0a3f18cf0ee129e56edb50fc52c3b.png",
+      "category": "ENDLESS RUNNER"
+    },
+    {
+      "title": "Basketball Random",
+      "path": "g/basketball-random",
+      "image": "https://play-lh.googleusercontent.com/gP8T5Z1O-ngxIloiwcBZzrzyLPYDp0R_1BDNKUDZboIRPVImeyWI8-7aExvB9gAGNKc=w240-h480-rw",
+      "category": "SPORTS"
+    },
+    {
+      "title": "MotoX3M",
+      "path": "g/motox3m",
+      "image": "images/motocross.png",
+      "category": "RACING"
+    },
+    {
+      "title": "Cookie Clicker",
+      "path": "g/cookieclicker",
+      "image": "https://play-lh.googleusercontent.com/Z1MOuuiD05ZN5LkVmMEvKF0mqAc-FknaQ2j8s4dZiO-LSPQX4EEA3RVJdlQEtxe96ok",
+      "category": "IDLE"
+    },
+    {
+      "title": "Temple Run 2",
+      "path": "g/temple-run-2",
+      "image": "https://play-lh.googleusercontent.com/go4XqS4mYs-G2tZymiVLF4wJYXIi5QrvwixNRzssk4G_vRBHrAdg4E1ddNwy9c2cZA",
+      "category": "ENDLESS RUNNER"
+    },
+    {
+      "title": "Stickman Golf",
+      "path": "g/stickman-golf",
+      "image": "https://image.spreadshirtmedia.com/image-server/v1/products/T1459A839PA3861PT28D12687618W6161H10000/views/1,width=550,height=550,appearanceId=839,backgroundColor=F2F2F2/golf-stickman-sticker.jpg",
+      "category": "SPORTS"
+    },
+    {
+      "title": "CSGO Case Opener",
+      "path": "g/case-clicker",
+      "image": "images/csgoclicker.png",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Pandemic 2",
+      "path": "g/pandemic2",
+      "image": "images/pandemic2.png",
+      "category": "STRATEGY"
+    },
+    {
+      "title": "Riddle School Games",
+      "path": "g/riddleschool",
+      "image": "https://i.ytimg.com/vi/Ls5rT-7_4d4/sddefault.jpg",
+      "category": "ADVENTURE"
+    },
+    {
+      "title": "Cupcake 2048",
+      "path": "g/cupcake2048",
+      "image": "images/cupcake2048.png",
+      "category": "PUZZLE"
+    },
+    {
+      "title": "Jetpack Joyride",
+      "path": "g/jetpack-joyride",
+      "image": "images/jetpackjoyride.png",
+      "category": "ARCADE"
+    },
+    {
+      "title": "Geometry Dash",
+      "path": "g/geodash",
+      "image": "images/geodash.jpg",
+      "category": "PLATFORMER"
+    },
+    {
+      "title": "Duck Life 1",
+      "path": "g/ducklife1",
+      "image": "images/ducklife1.png",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Sand Boxels",
+      "path": "g/sandboxels",
+      "image": "https://sandboxels.r74n.com/icons/icon.png",
+      "category": "SANDBOX"
+    },
+    {
+      "title": "FNAF 3",
+      "path": "g/fnaf-3",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpre00.deviantart.net%2F8799%2Fth%2Fpre%2Fi%2F2016%2F240%2Fe%2F4%2Ffnaf_3_icon_remake_by_lord_kaine-dafmxny.png&f=1&nofb=1&ipt=e99db640fdaa4c059eaa7de812fe0a9ae65d9877d35979cf888c2175f74d1866",
+      "category": "HORROR"
+    },
+    {
+      "title": "FNAF 4",
+      "path": "g/fnaf-4",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.speedrun.com%2Fstatic%2Fgame%2F369vyg1l%2Fcover.png%3Fv%3D03f8521&f=1&nofb=1&ipt=c6b2fb9ad90bbba205ace19f8019c6a2b47adde34c55abe684b28d9a9c6f0f23",
+      "category": "HORROR"
+    },
+    {
+      "title": "Duck Life Adventure",
+      "path": "g/duck-life-adventure",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftinfoil.media%2Fi%2F01005BC012C66000%2F0%2F0%2Fe85c09bd1ca90f68af4e424c3b7b48039dfcef5e558ebefe17f1480855dff17a&f=1&nofb=1&ipt=0910246e7758d2af962d619d5ff1ab5f5493a2c580899cc32c943ac7ae63bb97",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Crazy Cattle 3D",
+      "path": "g/cc3d",
+      "image": "https://external-content.duckduckgo.com/ip3/crazycattle3d.io.ico",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Half Life",
+      "path": "g/half-life-1",
+      "image": "https://cdn.jsdelivr.net/gh/bubbls/UGS-Assets@354e3c6939a08e472482653567d566ba3a2aa527/half%20life/favicon.ico",
+      "category": "SIMULATION"
+    },
+    {
+      "title": "Granny",
+      "path": "g/granny",
+      "image": "https://external-content.duckduckgo.com/ip3/granny.gg.ico",
+      "category": "HORROR"
+    },
+    {
+      "title": "Spacebar Clicker",
+      "path": "g/Spacebar_clicker",
+      "image": "https://dnrweqffuwjtx.cloudfront.net/media/posts/497/responsive/spacebark-clicker-xs.webp",
+      "category": "IDLE"
+    },
+    {
+      "title": "Bros Gms",
+      "path": "g/bros",
+      "image": "https://dunk.monster/favicon.png",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Buckshot Roulette",
+      "path": "g/buckshot",
+      "image": "https://cdn.jsdelivr.net/gh/genizy/web-port@main/buckshot-roulette/buckshot-roulette.apple-touch-icon.png",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "PolyTrack",
+      "path": "g/polytrack",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fescaperoad2.com%2Fdata%2Fimage%2Fgame%2FPolyTrack.jpg&f=1&nofb=1&ipt=e3ba8507aa29c10c47a1a4a0c6bafd0579ebfa26a15a232d0cee5dbab0ac5751",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Stickman Hook",
+      "path": "g/stickman-hook",
+      "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstickman.pro%2Fwp-content%2Fuploads%2F2023%2F03%2F99e090d154caf30f3625df7e456d5984.png&f=1&nofb=1&ipt=8b475eaf003ee79d6626a7c350fc2ef4c03ede30c07e2a4838d71c6296836951",
+      "category": "ACTION"
+    },
+    {
+      "title": "Archers",
+      "path": "g/stickmana",
+      "image": "https://stickmanboost.com/upload/cache/upload/imgs/stickman-archer-m144x144.jpeg",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Angry Birds",
+      "path": "g/ab",
+      "image": "https://cdn-icons-png.flaticon.com/512/528/528076.png",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Ryker Zombies",
+      "path": "g/nzp",
+      "image": "https://avatars.githubusercontent.com/u/91418801?s=200&v=4",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Tony Hawk Skater 2",
+      "path": "g/ps/thps2",
+      "image": "https://cdn2.steamgriddb.com/icon_thumb/258e130476290221f597c56d351224b6.png",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Hexanaut",
+      "path": "g/hexanut",
+      "image": "https://hexanaut.io/favicon/apple-touch-icon.png",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Pokemon Ruby",
+      "path": "g/pk/rb",
+      "image": "https://cdn2.steamgriddb.com/thumb/e36f04581f96643710ad22a983510f26.jpg",
+      "category": "RPG"
+    },
+    {
+      "title": "Pokemon FireRed",
+      "path": "g/pk/fr",
+      "image": "https://cdn2.steamgriddb.com/icon_thumb/974f4199063fa274340b212b2aca1941.png",
+      "category": "RPG"
+    },
+    {
+      "title": "Pokemon Emerald",
+      "path": "g/pk/em",
+      "image": "https://cdn2.steamgriddb.com/icon_thumb/56c3b2c6ea3a83aaeeff35eeb45d700d.png",
+      "category": "RPG"
+    },
+    {
+      "title": "Subway Surfers Miami",
+      "path": "g/subway-surfers/miami",
+      "image": "https://cdn.jsdelivr.net/gh/gn-math/covers@main/140.png",
+      "category": "ENDLESS RUNNER"
+    },
+    {
+      "title": "Aquapark",
+      "path": "g/apio",
+      "image": "https://cdn.jsdelivr.net/gh/gn-math/covers@main/448.png",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Snow Rider 3D",
+      "path": "g/sr3d/",
+      "image": "https://snowrider3d.com/data/image/game/snow-rider-3d.png1.PNG",
+      "category": "ENDLESS RUNNER"
+    },
+    {
+      "title": "Snake",
+      "path": "g/snakeg",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShOZewPD5j4nEvmMfAQB64wqNzVAggCKVOYctm-MK3vTW4FKkLdHysLoOBSRLNY8tstJE8hQ",
+      "category": "UNKNOWN"
+    },
+    {
+      "title": "Raze",
+      "path": "g/raze",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDfDguMrdSwbt8ebdm6MRTS61loQ8nQODmvg&s",
+      "category": "UNKNOWN"
+    }
   ]
 }
