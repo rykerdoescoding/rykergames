@@ -12,7 +12,6 @@
             margin: 0;
             padding: 0;
         }
-
         h1 {
             font-size: 32px;
             background-color: #000080;
@@ -21,36 +20,6 @@
             padding: 15px;
             border-bottom: 4px solid #ffff00;
         }
-
-        #top-bar {
-            width: 80%;
-            max-width: 800px;
-            margin: 10px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #top-bar input {
-            flex: 1;
-            padding: 6px;
-            font-size: 14px;
-            border: 2px solid #000080;
-        }
-
-        #top-bar button {
-            padding: 6px 10px;
-            font-size: 14px;
-            background-color: #000080;
-            color: #fff;
-            border: 2px solid #000080;
-            cursor: pointer;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
-        #top-bar button:hover { background-color: #0000ff; }
-
         #chat-box {
             width: 80%;
             max-width: 800px;
@@ -62,42 +31,35 @@
             padding: 10px;
             text-align: left;
         }
-
         .msg {
             margin: 5px 0;
             padding: 3px 5px;
             border: 1px solid #000080;
         }
-
         .msg.user {
             background-color: #ffffcc;
         }
-
         .msg.system {
             background-color: #e0e0e0;
             text-align: center;
             font-style: italic;
         }
-
         .user-label {
             font-weight: bold;
             color: #000080;
         }
-
         #message-form {
             width: 80%;
             max-width: 800px;
             margin: 0 auto 20px auto;
             display: flex;
         }
-
         #message-input {
             flex: 1;
             padding: 8px;
             font-size: 16px;
             border: 2px solid #000080;
         }
-
         #send-btn {
             padding: 8px 20px;
             font-size: 16px;
@@ -107,101 +69,9 @@
             cursor: pointer;
             font-weight: bold;
         }
-
         #send-btn:hover { background-color: #0000ff; }
     </style>
 </head>
 <body>
     <h1>BMS Messenger</h1>
-    <div id="top-bar">
-        <input type="text" id="search-user" placeholder="Type username to message">
-        <button id="group-btn">Group Chat</button>
-    </div>
-
-    <div id="chat-box"></div>
-
-    <form id="message-form">
-        <input id="message-input" placeholder="Type a message..." autocomplete="off">
-        <button type="submit" id="send-btn">Send</button>
-    </form>
-
-    <script>
-        const username = sessionStorage.getItem('chat_username') || 'Anonymous';
-
-        // Use HTTPS for secure connection
-        const socket = io("https://72.203.184.19:5000");
-
-        let currentRoom = "global_chat"; // default room
-
-        // Join group chat automatically
-        socket.emit('login', {username, password: ''});
-
-        const chatBox = document.getElementById('chat-box');
-        const form = document.getElementById('message-form');
-        const input = document.getElementById('message-input');
-        const searchInput = document.getElementById('search-user');
-        const groupBtn = document.getElementById('group-btn');
-
-        // Send messages
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            const msg = input.value.trim();
-            if(msg === '') return;
-            if(currentRoom === "global_chat"){
-                socket.emit('send_message', {user: username, msg});
-            } else {
-                socket.emit('private_message', {from: username, to: currentRoom, msg});
-            }
-            input.value = '';
-        });
-
-        // Receive messages
-        socket.on('message', data => {
-            const div = document.createElement('div');
-            div.classList.add('msg');
-            if(data.user === 'System'){
-                div.classList.add('system');
-                div.textContent = data.msg;
-            } else {
-                div.classList.add('user');
-                div.innerHTML = `<span class="user-label">${data.user}:</span> ${data.msg}`;
-            }
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        });
-
-        socket.on('private_message', data => {
-            const div = document.createElement('div');
-            div.classList.add('msg', 'user');
-            div.innerHTML = `<span class="user-label">${data.from} (PM):</span> ${data.msg}`;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        });
-
-        // Search user to chat privately
-        searchInput.addEventListener('keypress', e => {
-            if(e.key === 'Enter'){
-                const target = e.target.value.trim();
-                if(target){
-                    currentRoom = target;
-                    chatBox.innerHTML = '';
-                    const div = document.createElement('div');
-                    div.classList.add('msg', 'system');
-                    div.textContent = `Private chat with ${target}`;
-                    chatBox.appendChild(div);
-                }
-            }
-        });
-
-        // Group chat button
-        groupBtn.addEventListener('click', () => {
-            currentRoom = "global_chat";
-            chatBox.innerHTML = '';
-            const div = document.createElement('div');
-            div.classList.add('msg', 'system');
-            div.textContent = 'Back to Group Chat';
-            chatBox.appendChild(div);
-        });
-    </script>
-</body>
-</html>
+    <div id="chat-box"></
