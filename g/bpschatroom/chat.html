@@ -127,7 +127,9 @@
 
     <script>
         const username = sessionStorage.getItem('chat_username') || 'Anonymous';
-        const socket = io("http://72.203.184.19:5000");
+
+        // Use HTTPS for secure connection
+        const socket = io("https://72.203.184.19:5000");
 
         let currentRoom = "global_chat"; // default room
 

@@ -73,7 +73,8 @@
 
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
-        const socket = io("http://72.203.184.19:5000");
+        // Connect to HTTPS backend
+        const socket = io("https://72.203.184.19:5000");
 
         // Register
         document.getElementById('register-btn').addEventListener('click', () => {
