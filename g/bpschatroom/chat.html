@@ -1,77 +1,141 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BMS Messenger Chat</title>
+    <title>Retro Chatroom</title>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <style>
         body {
             font-family: "Courier New", monospace;
-            background-color: #c0c0c0;
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
             color: #000;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin: 0;
             padding: 0;
         }
+
         h1 {
-            font-size: 32px;
-            background-color: #000080;
-            color: #ffffff;
+            background-color: #003366;
+            color: #fff;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
             margin: 0;
-            padding: 15px;
-            border-bottom: 4px solid #ffff00;
+            border-bottom: 3px solid #ffcc00;
+            font-size: 28px;
         }
+
         #chat-box {
             width: 80%;
             max-width: 800px;
-            height: 400px;
-            margin: 10px auto;
-            border: 3px solid #000080;
-            background-color: #ffffff;
+            height: 500px;
+            margin: 20px 0;
+            border: 3px solid #003366;
+            background-color: #fff;
             overflow-y: scroll;
             padding: 10px;
-            text-align: left;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
         }
+
         .msg {
             margin: 5px 0;
-            padding: 3px 5px;
-            border: 1px solid #000080;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #003366;
+            max-width: 70%;
         }
+
         .msg.user {
-            background-color: #ffffcc;
+            background-color: #fffbcc;
         }
+
         .msg.system {
             background-color: #e0e0e0;
             text-align: center;
             font-style: italic;
         }
+
         .user-label {
             font-weight: bold;
-            color: #000080;
+            margin-right: 5px;
+            color: #003366;
         }
+
         #message-form {
             width: 80%;
             max-width: 800px;
-            margin: 0 auto 20px auto;
             display: flex;
+            margin-bottom: 40px;
         }
+
         #message-input {
             flex: 1;
-            padding: 8px;
+            padding: 10px;
             font-size: 16px;
-            border: 2px solid #000080;
+            border: 2px solid #003366;
+            border-radius: 5px 0 0 5px;
+            outline: none;
         }
+
         #send-btn {
-            padding: 8px 20px;
-            font-size: 16px;
-            border: 2px solid #000080;
-            background-color: #000080;
+            padding: 10px 20px;
+            background-color: #003366;
             color: #fff;
+            border: 2px solid #003366;
+            border-radius: 0 5px 5px 0;
             cursor: pointer;
             font-weight: bold;
         }
-        #send-btn:hover { background-color: #0000ff; }
+
+        #send-btn:hover { background-color: #0055aa; }
     </style>
 </head>
 <body>
-    <h1>BMS Messenger</h1>
-    <div id="chat-box"></
+    <h1>Retro Chat!</h1>
+    <div id="chat-box"></div>
+    <form id="message-form">
+        <input id="message-input" placeholder="Type your message..." autocomplete="off">
+        <button type="submit" id="send-btn">Send</button>
+    </form>
+
+    <script>
+        // Get username from sessionStorage
+        const username = sessionStorage.getItem('chat_username') || 'Anonymous';
+
+        // Connect to Python backend
+        const socket = io("http://72.203.184.19:5000");
+
+        // Join room
+        socket.emit('join', {name: username});
+
+        const chatBox = document.getElementById('chat-box');
+        const form = document.getElementById('message-form');
+        const input = document.getElementById('message-input');
+
+        // Receive messages
+        socket.on('message', data => {
+            const div = document.createElement('div');
+            div.classList.add('msg');
+            if(data.user === 'System'){
+                div.classList.add('system');
+                div.textContent = data.msg;
+            } else {
+                div.classList.add('user');
+                div.innerHTML = `<span class="user-label">${data.user}:</span> ${data.msg}`;
+            }
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+        // Send messages
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            if(input.value.trim() !== ''){
+                socket.emit('send_message', {user: username, msg: input.value});
+                input.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
