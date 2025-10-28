@@ -24,6 +24,20 @@
             margin: 0;
             border-bottom: 3px solid #ffcc00;
             font-size: 28px;
+            position: relative;
+        }
+
+        #user-count {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            background: #ffcc00;
+            color: #003366;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
         #chat-box {
@@ -36,7 +50,6 @@
             overflow-y: scroll;
             padding: 10px;
             box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
-            /* Added for smoother scrolling */
             scroll-behavior: smooth;
         }
 
@@ -46,7 +59,6 @@
             border-radius: 5px;
             border: 1px solid #003366;
             max-width: 70%;
-            /* Added for word wrapping */
             word-wrap: break-word;
         }
 
@@ -58,7 +70,6 @@
             background-color: #e0e0e0;
             text-align: center;
             font-style: italic;
-            /* System messages can be wider */
             max-width: 100%;
         }
 
@@ -68,7 +79,6 @@
             color: #003366;
         }
 
-        /* New style for images in chat */
         .msg-image {
             max-width: 100%;
             border-radius: 5px;
@@ -88,7 +98,6 @@
             padding: 10px;
             font-size: 16px;
             border: 2px solid #003366;
-            /* Updated border-radius */
             border-radius: 0;
             outline: none;
         }
@@ -105,7 +114,6 @@
 
         #send-btn:hover { background-color: #0055aa; }
 
-        /* New upload button style */
         #upload-btn {
             padding: 10px 15px;
             background-color: #ffcc00;
@@ -114,7 +122,6 @@
             border-radius: 5px 0 0 5px;
             cursor: pointer;
             font-weight: bold;
-            /* Remove right border to merge with input */
             border-right: none;
         }
 
@@ -122,16 +129,14 @@
     </style>
 </head>
 <body>
-    <h1>BMS Messenger</h1>
+    <h1>
+        BMS Messenger
+        <span id="user-count">Online: 0</span>
+    </h1>
     <div id="chat-box"></div>
-    <!-- The form now includes the upload button and hidden file input -->
     <form id="message-form">
-        <!-- Hidden file input for image selection -->
         <input type="file" id="image-input" accept="image/*" style="display: none;">
-        
-        <!-- This button will trigger the hidden file input -->
         <button type="button" id="upload-btn" title="Send Image">🖼️</button>
-        
         <input id="message-input" placeholder="Type your message..." autocomplete="off">
         <button type="submit" id="send-btn">Send</button>
     </form>
@@ -151,10 +156,35 @@
         const chatBox = document.getElementById('chat-box');
         const form = document.getElementById('message-form');
         const input = document.getElementById('message-input');
-        
-        // Get new elements for image upload
         const uploadBtn = document.getElementById('upload-btn');
         const imageInput = document.getElementById('image-input');
+        const userCountEl = document.getElementById('user-count');
+
+        // --- New: Censorship List ---
+        // Add any curse words or acronyms you want to filter.
+        // This is just a small example list.
+        const badWords = [
+            'damn', 'hell', 'crap', 'darn',
+            'ass', 'wtf', 'stfu', 'lmao', 'omfg'
+            // Add more words here
+        ];
+
+        // --- New: Censorship Function ---
+        function censorMessage(message) {
+            let censoredMessage = message;
+            
+            badWords.forEach(word => {
+                // Create a case-insensitive, global regex with word boundaries
+                // to avoid censoring parts of other words (e.g., 'ass' in 'grass')
+                const regex = new RegExp('\\b' + word + '\\b', 'gi');
+                
+                censoredMessage = censoredMessage.replace(regex, (match) => {
+                    // Replace the matched word with asterisks of the same length
+                    return '*'.repeat(match.length);
+                });
+            });
+            return censoredMessage;
+        }
 
         // Listen for messages from server
         socket.on('message', data => {
@@ -163,19 +193,16 @@
             
             const userLabel = `<span class="user-label">${data.user}:</span>`;
 
-            // Check the message type
             if (data.type === 'system') {
                 div.classList.add('system');
                 div.textContent = data.msg;
             } else if (data.type === 'text') {
                 div.classList.add('user');
-                // Sanitize text content (basic example)
                 const text = document.createTextNode(data.msg);
                 div.innerHTML = userLabel + ' ';
                 div.appendChild(text);
             } else if (data.type === 'image') {
                 div.classList.add('user');
-                // Display the user label and the image
                 div.innerHTML = `${userLabel}<br><img src="${data.img_data}" alt="User image" class="msg-image">`;
             }
             
@@ -183,32 +210,40 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         });
 
+        // Listen for user count updates
+        socket.on('user_count_update', data => {
+            userCountEl.textContent = `Online: ${data.count}`;
+        });
+
         // Send text message when pressing Enter or clicking Send
         form.addEventListener('submit', e => {
             e.preventDefault();
-            if (input.value.trim() !== '') {
-                // Emit a 'text' type message
-                socket.emit('send_message', { user: username, msg: input.value });
+            const originalMessage = input.value.trim();
+            
+            if (originalMessage !== '') {
+                // --- Updated: Censor the message before sending ---
+                const censoredMessage = censorMessage(originalMessage);
+                
+                socket.emit('send_message', { 
+                    user: username, 
+                    msg: censoredMessage 
+                });
+                
                 input.value = '';
             }
         });
 
-        // --- New Image Upload Logic ---
-
-        // 1. Trigger hidden file input when upload button is clicked
+        // --- Image Upload Logic ---
         uploadBtn.addEventListener('click', () => {
             imageInput.click();
         });
 
-        // 2. Handle file selection
         imageInput.addEventListener('change', e => {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
                 
-                // 3. Once file is read, convert to Base64
                 reader.onload = () => {
-                    // 4. Emit a new 'send_image' event with the Base64 data
                     socket.emit('send_image', { 
                         user: username, 
                         img_data: reader.result 
@@ -217,8 +252,6 @@
                 
                 reader.readAsDataURL(file);
             }
-            
-            // Reset input value to allow uploading the same file again
             e.target.value = null;
         });
     </script>
