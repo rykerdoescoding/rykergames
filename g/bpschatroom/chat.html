@@ -36,6 +36,8 @@
             overflow-y: scroll;
             padding: 10px;
             box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+            /* Added for smoother scrolling */
+            scroll-behavior: smooth;
         }
 
         .msg {
@@ -44,6 +46,8 @@
             border-radius: 5px;
             border: 1px solid #003366;
             max-width: 70%;
+            /* Added for word wrapping */
+            word-wrap: break-word;
         }
 
         .msg.user {
@@ -54,12 +58,22 @@
             background-color: #e0e0e0;
             text-align: center;
             font-style: italic;
+            /* System messages can be wider */
+            max-width: 100%;
         }
 
         .user-label {
             font-weight: bold;
             margin-right: 5px;
             color: #003366;
+        }
+
+        /* New style for images in chat */
+        .msg-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
         }
 
         #message-form {
@@ -74,7 +88,8 @@
             padding: 10px;
             font-size: 16px;
             border: 2px solid #003366;
-            border-radius: 5px 0 0 5px;
+            /* Updated border-radius */
+            border-radius: 0;
             outline: none;
         }
 
@@ -89,12 +104,34 @@
         }
 
         #send-btn:hover { background-color: #0055aa; }
+
+        /* New upload button style */
+        #upload-btn {
+            padding: 10px 15px;
+            background-color: #ffcc00;
+            color: #003366;
+            border: 2px solid #003366;
+            border-radius: 5px 0 0 5px;
+            cursor: pointer;
+            font-weight: bold;
+            /* Remove right border to merge with input */
+            border-right: none;
+        }
+
+        #upload-btn:hover { background-color: #ffe066; }
     </style>
 </head>
 <body>
     <h1>BMS Messenger</h1>
     <div id="chat-box"></div>
+    <!-- The form now includes the upload button and hidden file input -->
     <form id="message-form">
+        <!-- Hidden file input for image selection -->
+        <input type="file" id="image-input" accept="image/*" style="display: none;">
+        
+        <!-- This button will trigger the hidden file input -->
+        <button type="button" id="upload-btn" title="Send Image">🖼️</button>
+        
         <input id="message-input" placeholder="Type your message..." autocomplete="off">
         <button type="submit" id="send-btn">Send</button>
     </form>
@@ -114,29 +151,75 @@
         const chatBox = document.getElementById('chat-box');
         const form = document.getElementById('message-form');
         const input = document.getElementById('message-input');
+        
+        // Get new elements for image upload
+        const uploadBtn = document.getElementById('upload-btn');
+        const imageInput = document.getElementById('image-input');
 
         // Listen for messages from server
         socket.on('message', data => {
             const div = document.createElement('div');
             div.classList.add('msg');
-            if (data.user === 'System') {
+            
+            const userLabel = `<span class="user-label">${data.user}:</span>`;
+
+            // Check the message type
+            if (data.type === 'system') {
                 div.classList.add('system');
                 div.textContent = data.msg;
-            } else {
+            } else if (data.type === 'text') {
                 div.classList.add('user');
-                div.innerHTML = `<span class="user-label">${data.user}:</span> ${data.msg}`;
+                // Sanitize text content (basic example)
+                const text = document.createTextNode(data.msg);
+                div.innerHTML = userLabel + ' ';
+                div.appendChild(text);
+            } else if (data.type === 'image') {
+                div.classList.add('user');
+                // Display the user label and the image
+                div.innerHTML = `${userLabel}<br><img src="${data.img_data}" alt="User image" class="msg-image">`;
             }
+            
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
         });
 
-        // Send message when pressing Enter or clicking Send
+        // Send text message when pressing Enter or clicking Send
         form.addEventListener('submit', e => {
             e.preventDefault();
             if (input.value.trim() !== '') {
+                // Emit a 'text' type message
                 socket.emit('send_message', { user: username, msg: input.value });
                 input.value = '';
             }
+        });
+
+        // --- New Image Upload Logic ---
+
+        // 1. Trigger hidden file input when upload button is clicked
+        uploadBtn.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        // 2. Handle file selection
+        imageInput.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                
+                // 3. Once file is read, convert to Base64
+                reader.onload = () => {
+                    // 4. Emit a new 'send_image' event with the Base64 data
+                    socket.emit('send_image', { 
+                        user: username, 
+                        img_data: reader.result 
+                    });
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            // Reset input value to allow uploading the same file again
+            e.target.value = null;
         });
     </script>
 </body>
