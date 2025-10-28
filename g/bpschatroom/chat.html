@@ -4,10 +4,12 @@
     <title>BMS Messenger</title>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <style>
+        /* Web3/Web4 Aesthetic Styles */
         body {
             font-family: "Courier New", monospace;
-            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-            color: #000;
+            /* Darker, high-contrast background */
+            background: linear-gradient(135deg, #1f1c2c 0%, #3a3a5a 100%);
+            color: #E0E0E0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,13 +18,14 @@
         }
 
         h1 {
-            background-color: #003366;
+            background-color: #1f1c2c;
             color: #fff;
             padding: 20px;
             width: 100%;
             text-align: center;
             margin: 0;
-            border-bottom: 3px solid #ffcc00;
+            /* Electric Blue Accent */
+            border-bottom: 3px solid #00FFFF;
             font-size: 28px;
             position: relative;
         }
@@ -33,11 +36,13 @@
             right: 20px;
             transform: translateY(-50%);
             font-size: 16px;
-            background: #ffcc00;
-            color: #003366;
+            /* Neon Accent Counter */
+            background: #00FFFF;
+            color: #1f1c2c;
             padding: 8px 12px;
             border-radius: 5px;
             font-weight: bold;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
         }
 
         #chat-box {
@@ -45,45 +50,65 @@
             max-width: 800px;
             height: 500px;
             margin: 20px 0;
-            border: 3px solid #003366;
-            background-color: #fff;
+            /* Transparent/Darker chat box with neon border */
+            border: 2px solid #00FFFF;
+            background-color: rgba(0, 0, 0, 0.3);
             overflow-y: scroll;
             padding: 10px;
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
             scroll-behavior: smooth;
         }
+        
+        /* Scrollbar styling for a tech look (Webkit only) */
+        #chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        #chat-box::-webkit-scrollbar-thumb {
+            background-color: #00FFFF;
+            border-radius: 4px;
+        }
+        #chat-box::-webkit-scrollbar-track {
+            background: #1f1c2c;
+        }
+
 
         .msg {
             margin: 5px 0;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #003366;
+            padding: 8px 12px;
+            border-radius: 0; /* Removing curves for a blocky look */
+            border: 1px solid #3a3a5a; /* Subtle border */
             max-width: 70%;
             word-wrap: break-word;
         }
 
         .msg.user {
-            background-color: #fffbcc;
+            /* User message look */
+            background-color: #2b2b3b;
+            border-left: 3px solid #00FFFF; /* Accent on user messages */
+            color: #E0E0E0;
         }
 
         .msg.system {
-            background-color: #e0e0e0;
+            /* System message look */
+            background-color: #5a3a5a;
+            color: #FF69B4; /* Magenta color for system messages */
             text-align: center;
             font-style: italic;
             max-width: 100%;
+            border: none;
         }
 
         .user-label {
             font-weight: bold;
             margin-right: 5px;
-            color: #003366;
+            color: #00FFFF; /* Neon User Label */
         }
 
         .msg-image {
             max-width: 100%;
-            border-radius: 5px;
+            border-radius: 0;
             margin-top: 5px;
-            border: 1px solid #ccc;
+            border: 2px solid #00FFFF; /* Neon border for images */
         }
 
         #message-form {
@@ -97,55 +122,80 @@
             flex: 1;
             padding: 10px;
             font-size: 16px;
-            border: 2px solid #003366;
+            border: 2px solid #3a3a5a;
+            background-color: #2b2b3b;
+            color: #E0E0E0;
+            font-family: "Courier New", monospace;
             border-radius: 0;
             outline: none;
         }
 
-        #send-btn {
-            padding: 10px 20px;
-            background-color: #003366;
-            color: #fff;
-            border: 2px solid #003366;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            font-weight: bold;
+        #message-input:focus {
+            border-color: #00FFFF;
         }
 
-        #send-btn:hover { background-color: #0055aa; }
+        #send-btn {
+            padding: 10px 20px;
+            background-color: #00FFFF;
+            color: #1f1c2c;
+            border: 2px solid #00FFFF;
+            border-radius: 0;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        #send-btn:hover { 
+            background-color: #FFFFFF;
+            color: #1f1c2c;
+        }
 
         #upload-btn {
             padding: 10px 15px;
-            background-color: #ffcc00;
-            color: #003366;
-            border: 2px solid #003366;
-            border-radius: 5px 0 0 5px;
+            background-color: #FF69B4; /* Magenta accent for upload */
+            color: #1f1c2c;
+            border: 2px solid #FF69B4;
+            border-radius: 0;
             cursor: pointer;
             font-weight: bold;
             border-right: none;
         }
 
-        #upload-btn:hover { background-color: #ffe066; }
+        #upload-btn:hover { 
+            background-color: #FFFFFF;
+            box-shadow: 0 0 5px #FF69B4;
+        }
     </style>
 </head>
 <body>
     <h1>
-        BMS Messenger
+        BMS Messenger Terminal
         <span id="user-count">Online: 0</span>
     </h1>
     <div id="chat-box"></div>
     <form id="message-form">
         <input type="file" id="image-input" accept="image/*" style="display: none;">
+        
         <button type="button" id="upload-btn" title="Send Image">🖼️</button>
-        <input id="message-input" placeholder="Type your message..." autocomplete="off">
-        <button type="submit" id="send-btn">Send</button>
+        
+        <input id="message-input" placeholder=">> Input Data Stream..." autocomplete="off">
+        <button type="submit" id="send-btn">SEND</button>
     </form>
 
     <script>
         // Get username from sessionStorage
         const username = sessionStorage.getItem('chat_username') || 'Anonymous';
 
-        // ✅ Connect securely to your ngrok HTTPS backend
+        // --- Utility to shorten long addresses for display ---
+        function formatUser(user) {
+            // Check if it looks like a long address (e.g., 40-char hex)
+            if (user.length > 10) {
+                return user.substring(0, 6) + '...' + user.substring(user.length - 4);
+            }
+            return user;
+        }
+        
+        // ✅ Connect securely to your ngrok HTTPS backend (Use your actual ngrok URL)
         const socket = io("https://rusty-zebralike-danette.ngrok-free.dev", {
             transports: ["websocket", "polling"]
         });
@@ -156,13 +206,13 @@
         const chatBox = document.getElementById('chat-box');
         const form = document.getElementById('message-form');
         const input = document.getElementById('message-input');
+        
         const uploadBtn = document.getElementById('upload-btn');
         const imageInput = document.getElementById('image-input');
+
         const userCountEl = document.getElementById('user-count');
 
-        // --- New: Censorship List ---
-        // Add any curse words or acronyms you want to filter.
-        // This is just a small example list.
+        // --- Censorship List ---
         const badWords = [
             'damn', 'hell', 'crap', 'darn',
             'ass', 'wtf', 'stfu', 'lmao', 'omfg',
@@ -170,17 +220,14 @@
             // Add more words here
         ];
 
-        // --- New: Censorship Function ---
+        // --- Censorship Function ---
         function censorMessage(message) {
             let censoredMessage = message;
             
             badWords.forEach(word => {
-                // Create a case-insensitive, global regex with word boundaries
-                // to avoid censoring parts of other words (e.g., 'ass' in 'grass')
                 const regex = new RegExp('\\b' + word + '\\b', 'gi');
                 
                 censoredMessage = censoredMessage.replace(regex, (match) => {
-                    // Replace the matched word with asterisks of the same length
                     return '*'.repeat(match.length);
                 });
             });
@@ -192,7 +239,9 @@
             const div = document.createElement('div');
             div.classList.add('msg');
             
-            const userLabel = `<span class="user-label">${data.user}:</span>`;
+            // Use the formatter for the displayed user name
+            const displayUser = formatUser(data.user);
+            const userLabel = `<span class="user-label">${displayUser}:</span>`;
 
             if (data.type === 'system') {
                 div.classList.add('system');
@@ -222,7 +271,6 @@
             const originalMessage = input.value.trim();
             
             if (originalMessage !== '') {
-                // --- Updated: Censor the message before sending ---
                 const censoredMessage = censorMessage(originalMessage);
                 
                 socket.emit('send_message', { 

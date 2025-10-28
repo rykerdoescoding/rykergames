@@ -1,58 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chat98</title>
+    <title>Chat3 - Web3 Login</title>
     <style>
+        /* Web3/Web4 Aesthetic Styles */
         body {
-            font-family: Verdana, Arial, sans-serif;
-            background-color: #C0C0C0;
-            color: #000000;
+            /* Dark, Muted Background */
+            font-family: "Courier New", monospace;
+            background: linear-gradient(135deg, #1f1c2c 0%, #3a3a5a 100%);
+            color: #E0E0E0; /* Light text on dark background */
             text-align: center;
             margin: 0;
             padding: 50px;
         }
         h1 {
-            background-color: #000080;
+            /* Neon Accent and Glow */
             color: white;
             padding: 10px;
-            border-bottom: 3px solid #FFD700;
+            border-bottom: 3px solid #00FFFF; /* Electric Blue Accent */
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6); /* Subtle glow effect */
+            margin: 0;
         }
         #login-box {
+            /* Semi-transparent, bordered panel */
             display: inline-block;
-            background-color: #FFFFFF;
-            border: 2px solid #000080;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid #00FFFF;
+            border-radius: 10px;
+            padding: 40px;
             margin-top: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
         }
         input[type="text"] {
+            /* Clean, border-focus input */
             width: 250px;
-            padding: 5px;
-            border: 1px solid #000080;
-            font-size: 14px;
+            padding: 10px;
+            border: 1px solid #3a3a5a;
+            background-color: #2b2b3b; /* Darker input field */
+            color: #00FFFF;
+            font-size: 16px;
+            font-family: "Courier New", monospace;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #00FFFF; /* Neon focus */
+            box-shadow: 0 0 5px #00FFFF;
         }
         button {
-            background-color: #000080;
-            color: white;
-            border: 1px solid #000000;
-            padding: 5px 15px;
+            /* Primary Neon Button */
+            background-color: #00FFFF;
+            color: #1f1c2c;
+            border: none;
+            padding: 10px 20px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
         button:hover {
-            background-color: #0000CD;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 15px #00FFFF;
         }
         p {
-            color: #000080;
+            color: #AAAAAA;
             font-size: 12px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Chatroom Login</h1>
+    <h1>Decentralized Chat Access</h1>
     <div id="login-box">
-        <input type="text" id="username" placeholder="Enter your name">
+        <input type="text" id="username" placeholder="Enter your handle">
         <br><br>
-        <button id="enter-chat">Enter Chat</button>
-        <p>chat like its the 1990s</p>
+        <button id="enter-chat">Access Chat Grid</button>
+        <p>Your session will be authenticated via the centralized server.</p>
     </div>
     <script>
         document.getElementById('enter-chat').addEventListener('click', () => {
