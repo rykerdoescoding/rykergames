@@ -647,6 +647,12 @@
       "path": "g/bpschatroom",
       "image": "https://cmsv2-assets.apptegy.net/uploads/1832/logo/1753/district_logo.png",
       "category": "UNKNOWN"
+    },
+    {
+      "title": "Demolition Derby Racer",
+      "path": "g/demoderbycrashrace",
+      "image": "https://play-lh.googleusercontent.com/XJjEbJjyJHOuU3Jj_40iYCbkT6xt55aqsHZxjwFVgodxiF0HDrnvG2GNopRBG4UCv-c=w240-h480-rw",
+      "category": "RACING"
     }
   ]
 }
