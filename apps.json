@@ -2,7 +2,7 @@
   "apps": [
     {
       "title": "YouTube",
-      "path": "/app/utbe",
+      "path": "https://www.youtube.com",
       "image": "https://yt3.googleusercontent.com/3s6evpqAiDU9tQR4sC2siJippbH2RWVPnwHgyl4V0th2iuQz0VDQZbUhQBGmsxLYo-mjG6TqZQ=s900-c-k-c0x00ffffff-no-rj"
     },
     {
