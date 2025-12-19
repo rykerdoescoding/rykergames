@@ -145,13 +145,19 @@ body {
     color: var(--text-primary);
 }
 
-/* ================= GAME GRID (OPTIMIZED) ================= */
+/* ================= GRID ================= */
 
 .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 10px;
     padding: 15px;
+}
+
+.section-title {
+    padding: 15px 15px 0;
+    color: var(--accent-main);
+    font-size: 1rem;
 }
 
 .game-card {
@@ -180,8 +186,6 @@ body {
     font-size: 0.7rem;
     color: var(--accent-alt);
 }
-
-/* FAVORITE STAR (STATIC) */
 
 .favorite-star {
     font-size: 14px;
@@ -214,18 +218,19 @@ footer {
         <div class="sidebar-toggle"><i class="fas fa-chevron-right"></i></div>
     </div>
 
-    <a href="#home" class="nav-item active" data-page="home">
+    <a href="#home" class="nav-item active">
         <div class="nav-icon"><i class="fas fa-home"></i></div>
         <div class="nav-text">Home</div>
     </a>
 
-    <a href="#settings" class="nav-item" data-page="settings">
+    <a href="#settings" class="nav-item">
         <div class="nav-icon"><i class="fas fa-cog"></i></div>
         <div class="nav-text">Settings</div>
     </a>
 </nav>
 
 <div class="main-container">
+
 <header class="app-header">
     <div class="logo">rykerdoescoding</div>
     <div class="time-spent" id="timeSpent">loading...</div>
@@ -236,12 +241,21 @@ footer {
 </header>
 
 <main>
+
+    <!-- AUDIO & MEDIA -->
+    <div class="section-title">Audio & Media</div>
+    <div class="games-grid" id="apps-grid"></div>
+
+    <!-- GAMES -->
+    <div class="section-title">Games</div>
     <div class="games-grid" id="all-games-grid"></div>
+
 </main>
 
 <footer>
     © <span id="year"></span> rykerdoescoding
 </footer>
+
 </div>
 
 <script>
@@ -250,7 +264,7 @@ document.querySelector('.sidebar-toggle').onclick = () => {
     document.querySelector('.sidebar').classList.toggle('expanded');
 };
 
-/* ================= GAMES ================= */
+/* ================= LOAD DATA ================= */
 async function loadGames() {
     try {
         const res = await fetch('games.json');
@@ -261,6 +275,17 @@ async function loadGames() {
     }
 }
 
+async function loadApps() {
+    try {
+        const res = await fetch('apps.json');
+        const data = await res.json();
+        return data.apps || [];
+    } catch {
+        return [];
+    }
+}
+
+/* ================= FAVORITES ================= */
 function getFavorites() {
     return JSON.parse(localStorage.getItem('favoriteGames') || '[]');
 }
@@ -279,6 +304,26 @@ function toggleFavorite(e, game) {
 
     saveFavorites(favs);
     renderGames(window.ALL_GAMES);
+}
+
+/* ================= RENDER ================= */
+function renderApps(apps) {
+    const grid = document.getElementById('apps-grid');
+    grid.innerHTML = '';
+
+    for (const app of apps) {
+        const card = document.createElement('div');
+        card.className = 'game-card';
+
+        card.innerHTML = `
+            <a href="${app.path}" target="_blank">
+                <img src="${app.image}" class="game-card-image">
+                <div class="game-card-title">${app.title}</div>
+            </a>
+        `;
+
+        grid.appendChild(card);
+    }
 }
 
 function renderGames(games) {
@@ -308,7 +353,8 @@ function renderGames(games) {
     }
 }
 
-async function searchGames() {
+/* ================= SEARCH ================= */
+function searchGames() {
     const q = searchInput.value.toLowerCase();
     renderGames(window.ALL_GAMES.filter(g =>
         g.title.toLowerCase().includes(q)
@@ -327,6 +373,9 @@ setInterval(() => {
 document.getElementById('year').textContent = new Date().getFullYear();
 
 (async () => {
+    window.ALL_APPS = await loadApps();
+    renderApps(window.ALL_APPS);
+
     window.ALL_GAMES = await loadGames();
     renderGames(window.ALL_GAMES);
 })();

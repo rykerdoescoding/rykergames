@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "title": "YouTube",
+      "path": "/app/utbe",
+      "image": "https://yt3.googleusercontent.com/3s6evpqAiDU9tQR4sC2siJippbH2RWVPnwHgyl4V0th2iuQz0VDQZbUhQBGmsxLYo-mjG6TqZQ=s900-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "title": "Freefy",
+      "path": "/app/music",
+      "image": "https://resize.imagekit.co/x04_XsLRonCoiCZYzhKLkRhPAbOPkUsyefkfmHviewE/h:300/dpr:2/bg:ffffff/plain/s3://betalist-production/rseh338q3cextht5g7g2vqkbxmt9"
+    }
+  ]
+}
