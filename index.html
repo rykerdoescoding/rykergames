@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instructure</title>
+<title>Dolphinator</title>
 
 <link rel="icon" type="image/x-icon" href="https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,17 +12,18 @@
 
 <style>
 :root {
-    --bg-primary: #1a0f0a;
-    --bg-secondary: #2a160d;
-    --bg-tertiary: #3a1f12;
+    --bg-primary: #0d0a1a;
+    --bg-secondary: rgba(20, 10, 40, 0.8);
+    --bg-tertiary: rgba(40, 20, 60, 0.7);
 
-    --accent-main: #ff7849;
-    --accent-alt: #ffb703;
+    --accent-main: #7f5af0;
+    --accent-alt: #00f0ff;
 
-    --text-primary: #fff3e8;
-    --text-secondary: #d6bfae;
+    --text-primary: #e0e0ff;
+    --text-secondary: #a0a0ff;
 
-    --border-radius: 6px;
+    --border-radius: 12px;
+    --glow: 0 0 15px rgba(127,90,240,0.6), 0 0 30px rgba(0,240,255,0.4);
 }
 
 * {
@@ -32,12 +33,12 @@
 }
 
 html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: 'Orbitron', sans-serif;
-    background: var(--bg-primary);
+    background: linear-gradient(135deg, #0d0a1a, #1a0f2f, #0a1a3a);
     color: var(--text-primary);
     display: flex;
     min-height: 100vh;
@@ -54,19 +55,25 @@ body {
     flex-direction: column;
     align-items: center;
     border-right: 1px solid var(--accent-main);
+    transition: width 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .sidebar.expanded {
-    width: 200px;
+    width: 220px;
 }
 
 .sidebar-header {
     padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .sidebar-logo {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     color: var(--accent-main);
+    text-shadow: var(--glow);
 }
 
 .sidebar-toggle {
@@ -82,11 +89,15 @@ body {
     color: var(--text-secondary);
     display: flex;
     align-items: center;
+    transition: all 0.2s ease;
+    border-radius: var(--border-radius);
+    margin: 5px 0;
 }
 
-.nav-item.active {
-    background: rgba(255, 120, 73, 0.2);
+.nav-item:hover, .nav-item.active {
+    background: rgba(127,90,240,0.2);
     color: var(--text-primary);
+    text-shadow: var(--glow);
 }
 
 .nav-icon {
@@ -107,26 +118,32 @@ body {
 .main-container {
     margin-left: 70px;
     width: calc(100% - 70px);
+    transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
 .sidebar.expanded ~ .main-container {
-    margin-left: 200px;
-    width: calc(100% - 200px);
+    margin-left: 220px;
+    width: calc(100% - 220px);
 }
 
 .app-header {
     background: var(--bg-secondary);
     padding: 15px;
     border-bottom: 1px solid var(--accent-main);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .logo {
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: var(--accent-main);
+    text-shadow: var(--glow);
 }
 
 .time-spent {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: var(--text-secondary);
 }
 
@@ -138,59 +155,95 @@ body {
 
 #searchInput {
     width: 100%;
-    padding: 10px;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--accent-main);
-    border-radius: 20px;
+    padding: 10px 15px;
+    background: rgba(60, 30, 90, 0.5);
+    border: 1px solid var(--accent-alt);
+    border-radius: 25px;
     color: var(--text-primary);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#searchInput:focus {
+    border-color: var(--accent-main);
+    box-shadow: var(--glow);
 }
 
 /* ================= GRID ================= */
 
 .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-    gap: 10px;
-    padding: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    padding: 20px;
 }
 
 .section-title {
-    padding: 15px 15px 0;
+    padding: 15px 20px 5px;
     color: var(--accent-main);
-    font-size: 1rem;
+    font-size: 1.2rem;
+    text-shadow: var(--glow);
 }
+
+/* ================= GAME CARDS ================= */
 
 .game-card {
     background: var(--bg-tertiary);
-    border: 1px solid rgba(255,120,73,0.3);
     border-radius: var(--border-radius);
     text-align: center;
-    padding: 8px;
+    padding: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid rgba(127,90,240,0.3);
+    backdrop-filter: blur(5px);
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--glow);
+}
+
+.game-card.selected {
+    border-color: var(--accent-main);
+    box-shadow: 0 0 20px var(--accent-main), 0 0 40px var(--accent-alt);
 }
 
 .game-card a {
     text-decoration: none;
     color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .game-card-image {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     border: 2px solid var(--accent-main);
+    transition: transform 0.2s ease;
+}
+
+.game-card:hover .game-card-image {
+    transform: scale(1.1);
 }
 
 .game-card-title {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: var(--accent-alt);
+    text-shadow: 0 0 5px var(--accent-alt);
 }
 
 .favorite-star {
-    font-size: 14px;
+    font-size: 16px;
     color: #aaa;
     cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
 }
 
 .favorite-star.active {
@@ -203,13 +256,13 @@ footer {
     background: var(--bg-secondary);
     padding: 20px;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     border-top: 1px solid var(--accent-main);
+    backdrop-filter: blur(10px);
 }
 </style>
 </head>
-
 <body>
 
 <nav class="sidebar">
@@ -232,7 +285,7 @@ footer {
 <div class="main-container">
 
 <header class="app-header">
-    <div class="logo">rykerdoescoding</div>
+    <div class="logo">Dolphinator</div>
     <div class="time-spent" id="timeSpent">loading...</div>
 
     <div class="search-container">
@@ -241,22 +294,16 @@ footer {
 </header>
 
 <main>
-
-    <!-- AUDIO & MEDIA -->
     <div class="section-title">Audio & Media</div>
     <div class="games-grid" id="apps-grid"></div>
 
-    <!-- GAMES -->
     <div class="section-title">Games</div>
     <div class="games-grid" id="all-games-grid"></div>
-
 </main>
 
 <footer>
-    © <span id="year"></span> rykerdoescoding
+    © <span id="year"></span> Dolphinator
 </footer>
-
-</div>
 
 <script>
 /* ================= SIDEBAR ================= */
@@ -306,6 +353,11 @@ function toggleFavorite(e, game) {
     renderGames(window.ALL_GAMES);
 }
 
+/* ================= SELECT GAME ================= */
+function toggleSelect(card, game) {
+    card.classList.toggle('selected');
+}
+
 /* ================= RENDER ================= */
 function renderApps(apps) {
     const grid = document.getElementById('apps-grid');
@@ -348,6 +400,8 @@ function renderGames(games) {
 
         card.querySelector('.favorite-star').onclick = (e) =>
             toggleFavorite(e, game);
+
+        card.onclick = () => toggleSelect(card, game);
 
         grid.appendChild(card);
     }
